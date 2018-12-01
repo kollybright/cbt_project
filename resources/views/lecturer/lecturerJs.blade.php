@@ -191,7 +191,7 @@
 
         });
         $('.update_test').click(function(){
-            var id,test_number,test_duration,start_time,session,course_id,token;
+            var id,test_number,test_duration,start_time,session,course_id,token,max_question;
             test_number=$('input[name=update_test_number]').val();
             test_duration=$('input[name=update_test_duration]').val();
             start_time=$('input[name=update_test_start_time]').val();
@@ -199,11 +199,13 @@
             course_id="{{isset($course)?$course->id:''}}";
             token ="{{csrf_token()}}";
             id= localStorage.getItem('test_id');
+            max_question= "{{$totalQuestion}}";
             $('#update_test_modal').modal('hide');
 
 
 
-            if(test_number!='' && test_duration!='' && start_time!=''){
+
+            if(test_number!=''  && test_duration!='' && start_time!='' && test_number<=max_question){
                 if (confirm('Are you sure?')==true){
                     $.ajax({
                         type:'POST',
@@ -231,7 +233,8 @@
                 }
             }
             else{
-                alert('Please enter necessary fields');
+                alert(`Please enter necessary fields properly
+ NB: total number of available question = ${max_question}`);
             }
         });
 

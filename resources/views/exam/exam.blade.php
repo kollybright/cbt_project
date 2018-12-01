@@ -35,7 +35,8 @@
 
     </style>
 </head>
-<body onkeydown ="return( event.keyCode == 154)">
+<body>
+{{--onkeydown ="return( event.keyCode == 154)"--}}
 <nav class="navbar  navbar-dark bg-dark">
     <a class="navbar-brand" href="#">CBT</a>
     <ul class="navbar-nav ml-auto">
@@ -54,7 +55,7 @@
 {{--{{strtotime('+ 30 minutes')}}--}}
 {{--{{date('M d,Y H:i:s',strtotime('now'))}}--}}
 <div id="app" class="flex-center">
-    <Timer></Timer>
+    {{--<Timer></Timer>--}}
     {{--{{date('M d, Y H:i:s',strtotime('+ 30 minutes'))}}--}}
     <?php// $a = strtotime('10/24/2018 11:11 PM')?>
     {{--{{date('M d, Y H:i:s', strtotime('+  minutes',$a))}}--}}

@@ -69,7 +69,7 @@
                         <div class="modal-body" id="result">
                             <div class="form-group">
                              <label for="update_test_number">Question no</label>
-                            <input name="update_test_number" id="update_test_number" type="number" class="form-control" required>
+                            <input name="update_test_number" id="update_test_number" type="number" class="form-control" min="1" max="{{$totalQuestion}}" required>
                                 </div>
                             <div class="form-group">
                                 <label for="update_test_duration"> Duration</label>
