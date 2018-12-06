@@ -47618,18 +47618,19 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
-        duration: Object
+        duration: Object,
+        questions: String
     },
     mounted: function mounted() {
         //console.log(this.duration.date);
         var d = this.duration.date;
         var a = this.studentResponses;
         this.timer(d);
+        console.log(this.question);
     },
     data: function data() {
         return {
@@ -47818,7 +47819,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             // Set the date we're counting down to
             //var countDownDate
             var d = "Nov 27, 2018 20:44:00";
-            localStorage.setItem('countDownDate', new Date("Nov 27, 2018 20:44:00").getTime());
+            localStorage.setItem('countDownDate', new Date("Dec 06, 2018 12:44:00").getTime());
 
             // Update the count down every 1 second
             var x = setInterval(function () {
@@ -47901,11 +47902,8 @@ var render = function() {
             },
             [
               _c("p", [
-                _vm._v(
-                  _vm._s(_vm.current_question_no + 1) +
-                    ": " +
-                    _vm._s(testQuestion.question)
-                )
+                _c("b", [_vm._v("Q" + _vm._s(_vm.current_question_no + 1))]),
+                _vm._v(": " + _vm._s(testQuestion.question))
               ]),
               _vm._v(" "),
               _c("ol", { attrs: { type: "A" } }, [
@@ -47989,7 +47987,7 @@ var render = function() {
                         }
                       }
                     }),
-                    _vm._v("\n      " + _vm._s(testQuestion.d))
+                    _vm._v(" " + _vm._s(testQuestion.d) + " ")
                   ])
                 ])
               ])
@@ -48047,7 +48045,7 @@ var render = function() {
           _c(
             "button",
             {
-              staticClass: "btn btn-lg btn-danger",
+              staticClass: "btn btn-sm btn-danger",
               attrs: { id: "submit" },
               on: {
                 click: function($event) {

@@ -25,7 +25,7 @@
             position: relative;
         }
         .full-height {
-            height: 100vh;
+            height: 60vh;
         }
         .content {
             text-align: center;
@@ -41,43 +41,46 @@
     <a class="navbar-brand" href="#">CBT</a>
     <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-            <a class="nav-link" href="#">
-                    <p id="demo" class="float-right text-danger"></p>
 
-                </a>
         </li>
     </ul>
 </nav>
-<br>
-{{--<div id="timer" class="text-center">--}}
-{{--<span id="minutes"></span>:<span id="seconds"></span>--}}
-{{--</div>--}}
-{{--{{strtotime('+ 30 minutes')}}--}}
-{{--{{date('M d,Y H:i:s',strtotime('now'))}}--}}
+<div class="mx-auto mt-5 flex-center">
 
-<div id="app" class="flex-center">
-    {{--<Timer></Timer>--}}
-    {{--{{date('M d, Y H:i:s',strtotime('+ 30 minutes'))}}--}}
-    <?php// $a = strtotime('10/24/2018 11:11 PM')?>
-    {{--{{date('M d, Y H:i:sa', strtotime('+ 30 minutes',strtotime('2018-11-29T12:07')))}}--}}
+        <div class="form-group">
+         @csrf
+        <label for="go_to_test"><b class="text-primary font-weight-bold ">Select from Available Tests</b></label><br>
+        <select id="go_to_test" class=" go_to_test form-control-lg">
+            @if(count($test)==0)
+                <option>No available tests, come back later or contact the examiners
+                    @else
+                </option><option>Available tests</option>
+            @endif
 
-
-    {{--{{}}--}}
-
-
-    <div class="container">
-        <exam v-bind:duration="{date:'{{date('M d, Y H:i:s',strtotime('+ 61 minutes'))}}'}"
+            @foreach($test as $key=>$value)
+                <option value="{{$value->id}}">{{$value->course_code}} - {{$value->course_title}} </option>
+            @endforeach
+        </select>
+        </div>
 
 
-        ></exam>
-    </div>
+
 </div>
+
+
 
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{URL::asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{URL::asset('assets/vendor/jquery/jquery.min.js')}}"></script>
 <script>
-
+    {{--$('#go_to_test').change(function(event){--}}
+        {{--event.preventDefault();--}}
+        {{--var course= $(this).val();--}}
+        {{--if(course!="Available tests" || course !="No available tests, come back later or contact the examiners") {--}}
+            {{--var path = "{{url('test')}}";--}}
+            {{--window.location = encodeURI(path);--}}
+        {{--}--}}
+    {{--});--}}
 </script>
 </body>
 </html>

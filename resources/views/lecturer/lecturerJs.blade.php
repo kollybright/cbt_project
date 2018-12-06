@@ -199,9 +199,8 @@
             course_id="{{isset($course)?$course->id:''}}";
             token ="{{csrf_token()}}";
             id= localStorage.getItem('test_id');
-            max_question= "{{$totalQuestion}}";
+            max_question= "{{isset($totalQuestion)?$totalQuestion:''}}";
             $('#update_test_modal').modal('hide');
-
 
 
 

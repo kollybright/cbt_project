@@ -9,7 +9,7 @@
                     </h4>
                     </div>
                     <div class="card-body">
-                        <table id="scheduled_test" class="table table-responsive table-hover">
+                        <table id="scheduled_test" class="table table-sm table-responsive  table-hover">
                             <thead>
                             <tr>
                                 <th>No of Question</th>
@@ -18,7 +18,7 @@
                                 <th>Start Date</th>
                                 <th>Update</th>
                                 <th>Delete</th>
-                                <th>View Registered Student</th>
+                                <th>Registered Student</th>
 
                             </tr>
                             </thead>
@@ -28,7 +28,7 @@
                                     <td>{{$value->no_of_question}}</td>
                                     <td>{{$value->duration}}</td>
                                     <td>{{$value->session}}</td>
-                                    <td>{{$value->start_time}}</td>
+                                    <td width="20%">{{$value->start_time}}</td>
 
                                         <td><button value="{{$value->id}}"  data-toggle="modal"  data-target="#update_test_modal" class=" modify_test btn btn-sm btn-outline-info"><i class=" fa fa-edit"></i></button></td>
                                     <td><button value="{{$value->id}}" class="delete_test btn btn-sm btn-outline-danger"><i class="fa fa-times-circle"></i></button></td>

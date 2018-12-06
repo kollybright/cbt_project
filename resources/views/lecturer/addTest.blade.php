@@ -20,7 +20,7 @@
                     </small>
                 </div>
                 <div class="form-group">
-                    <label for=exam_duration"">Exam Duration</label>
+                    <label for=exam_duration"">Exam Duration (minutes)</label>
                     <input class="form-control{{$errors->has('exam_duration')?'is-invalid':''}}" name="exam_duration" id="exam_duration"  value="{{old('exam_duration')}}" type="number" min="1"  placeholder="Enter Exam Duration In Minutes" required>
                     <small class="text-danger">{{$errors->has('exam_duration')?$errors->first('exam_duration'):''}}</small>
                 </div>

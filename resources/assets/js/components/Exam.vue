@@ -7,7 +7,7 @@
   </div>
   <div id="question" v-for="(testQuestion,index) in testQuestions">
    <div v-bind:id="testQuestion.id" v-show="index===current_question_no">
-    <p>{{current_question_no+1}}: {{testQuestion.question}}</p>
+    <p><b>Q{{current_question_no+1}}</b>: {{testQuestion.question}}</p>
     <ol type="A">
 
      <li>
@@ -31,8 +31,7 @@
      <li>
       <label><input type="radio" v-bind:name="testQuestion.id" value="d"
                     @click="studentResponse(testQuestion.id,'d')"
-                    @change= "studentResponse(testQuestion.id,'d')">
-       {{testQuestion.d}}</label>
+                    @change= "studentResponse(testQuestion.id,'d')" > {{testQuestion.d}} </label>
      </li>
 
     </ol>
@@ -45,7 +44,7 @@
     <button class="btn btn-sm btn-info  float-right" v-if="next_seen" @click="next(),visible()" id="next">Next ></button>
    </p>
 
-   <p class="text-center"><button id="submit" class="btn btn-lg btn-danger" @click="submitTest()">Submit <i class="fa fa-lock"></i></button></p>
+   <p class="text-center"><button id="submit" class="btn btn-sm btn-danger" @click="submitTest()">Submit <i class="fa fa-lock"></i></button></p>
 
   </div>
 
@@ -55,13 +54,16 @@
 
     export default{
         props: {
-            duration: Object
+            duration: Object,
+            questions: String
         },
         mounted (){
             //console.log(this.duration.date);
             let d = this.duration.date;
             let a= this.studentResponses;
             this.timer(d);
+            console.log(this.question)
+
 
 
         },
@@ -266,7 +268,7 @@
                 // Set the date we're counting down to
                 //var countDownDate
                 var d= "Nov 27, 2018 20:44:00";
-                localStorage.setItem('countDownDate', new Date("Nov 27, 2018 20:44:00").getTime());
+                localStorage.setItem('countDownDate', new Date("Dec 06, 2018 12:44:00").getTime());
 
                 // Update the count down every 1 second
                 var x = setInterval(function() {

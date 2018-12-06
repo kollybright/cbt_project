@@ -18,8 +18,7 @@ class CreateTestTable extends Migration
             $table->increments('id');
             $table->integer('course_id')->unsigned();
             $table->foreign('course_id')->references('id')->on('course');
-            $table->text('start_time');
-            $table->text('end_time');
+            $table->dateTime('start_time');
             $table->integer('duration');
             $table->integer('no_of_question');
             $table->string('session');

@@ -285,13 +285,10 @@ class Lecturer extends Controller
             'session'=>'required||regex:/(^([0-9]{4})\/([0-9]{4})$)/',
 
         ]);
-        $duration = $request->input('exam_duration');
-        $startDate = strtotime($request->input('start_date'));
-        $endTime = date('Y-m-d h:i:s',strtotime('+ '.$duration.' minutes',$startDate));
+
 
         $test->course_id = $request->course_id;
         $test->start_time = $request->start_date;
-        $test->end_time = $endTime;
         $test->duration = $request->exam_duration;
         $test->no_of_question = $request->no_of_questions;
         $test->session = $request->input('session');

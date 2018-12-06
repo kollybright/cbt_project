@@ -82,7 +82,8 @@ Route::post('student/drop_course', 'StudentController@dropCourse');
 
 //-----------------------------Exam-----------------------------------------
 //Route::view('exam','exam.exam');
-Route::view('test','exam.exam');
+Route::get('test','Exam@index');
+Route::get('test/select','Exam@selectTest');
 Route::post('test/submit','Exam@submit');
 
 
