@@ -178,10 +178,10 @@
         $('table').on('click','.modify_test',function(){
             var question_no, duration, session, start_date,test_id;
             test_id= $(this).val();
-            question_no= $(this).parent().prevAll().eq(3).text();
-            duration= $(this).parent().prevAll().eq(2).text();
-            session= $(this).parent().prevAll().eq(1).text();
-            start_date= $(this).parent().prevAll().eq(0).text();
+            // question_no= $(this).parent().prevAll().eq(4).text();
+            duration= $(this).parent().prevAll().eq(3).text();
+            session= $(this).parent().prevAll().eq(2).text();
+            start_date= $(this).parent().prevAll().eq(1).text();
             $('input[name=update_test_number]').val(question_no);
             $('input[name=update_test_duration]').val(duration);
             $('input[name=update_test_start_time]').val(start_date);
@@ -192,20 +192,19 @@
         });
         $('.update_test').click(function(){
             var id,test_number,test_duration,start_time,session,course_id,token,max_question;
-            test_number=$('input[name=update_test_number]').val();
+            // test_number=$('input[name=update_test_number]').val();
             test_duration=$('input[name=update_test_duration]').val();
             start_time=$('input[name=update_test_start_time]').val();
             session=$('input[name=update_session]').val();
             course_id="{{isset($course)?$course->id:''}}";
             token ="{{csrf_token()}}";
             id= localStorage.getItem('test_id');
-            max_question= "{{isset($totalQuestion)?$totalQuestion:''}}";
+            {{--max_question= "{{isset($totalQuestion)?$totalQuestion:''}}";--}}
             $('#update_test_modal').modal('hide');
 
 
 
-            if(test_number!=''  && test_duration!='' && start_time!='' && test_number<=max_question){
-                if (confirm('Are you sure?')==true){
+            if(test_duration!='' && start_time!='' ){
                     $.ajax({
                         type:'POST',
                         url:"{{url('lecturer/update_test')}}",
@@ -229,7 +228,7 @@
                             $('#modal').modal();
                         }
                     });
-                }
+
             }
             else{
                 alert(`Please enter necessary fields properly

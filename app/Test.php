@@ -11,7 +11,7 @@ class Test extends Model
         'course_id',
         'start_time',
         'duration',
-        'no_of_question',
+//        'no_of_question',
         'session',
     ];
 }

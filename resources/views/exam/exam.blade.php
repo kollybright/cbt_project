@@ -9,7 +9,7 @@
     <!-- Custom fonts for this template-->
     <link href="{{URL::asset('assets/vendor/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
     <script>window.Laravel= {csrfToken: '{{csrf_token()}}'} </script>
-    <title>test</title>
+    <title>Test</title>
     <style>
         html,body{
 
@@ -30,54 +30,60 @@
         .content {
             text-align: center;
         }
+     .big-text{
+         font-size: x-large;
+         font-weight: bold;
+         font-family: "Britannic Bold";
 
-
+     }
 
     </style>
 </head>
 <body>
-{{--onkeydown ="return( event.keyCode == 154)"--}}
 <nav class="navbar  navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">CBT</a>
-    <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-            <a class="nav-link" href="#">
-                    <p id="demo" class="float-right text-danger"></p>
+<a class="navbar-brand" href="#">CBT</a>
+<ul class="navbar-nav ml-auto">
+    <li class="nav-item">
 
-                </a>
-        </li>
-    </ul>
+    </li>
+</ul>
 </nav>
 <br>
-{{--<div id="timer" class="text-center">--}}
-{{--<span id="minutes"></span>:<span id="seconds"></span>--}}
-{{--</div>--}}
-{{--{{strtotime('+ 30 minutes')}}--}}
-{{--{{date('M d,Y H:i:s',strtotime('now'))}}--}}
-
-<div id="app" class="flex-center">
-    {{--<Timer></Timer>--}}
-    {{--{{date('M d, Y H:i:s',strtotime('+ 30 minutes'))}}--}}
-    <?php// $a = strtotime('10/24/2018 11:11 PM')?>
-    {{--{{date('M d, Y H:i:sa', strtotime('+ 30 minutes',strtotime('2018-11-29T12:07')))}}--}}
-
-
-    {{--{{}}--}}
-
+<div id="app" class="">
 
     <div class="container">
-        <exam v-bind:duration="{date:'{{date('M d, Y H:i:s',strtotime('+ 61 minutes'))}}'}"
-
-
-        ></exam>
+        <exam
+                v-bind:questions="{{json_encode($exam,true)}}"
+                v-bind:id="{{json_encode($id,true)}}"
+                v-bind:start_time="{{json_encode($start_time,true)}}"
+                v-bind:end_time="{{json_encode($end_time,true)}}">
+        </exam>
     </div>
 </div>
+    {{--@else--}}
+    {{--<div class="flex-center mb-5 text-danger" id="countdown">--}}
 
+    {{--</div>--}}
+{{--@endif--}}
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{URL::asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{URL::asset('assets/vendor/jquery/jquery.min.js')}}"></script>
 <script>
 
+
+  // countdown();
+
+
+
+
 </script>
 </body>
+<footer class="sticky-footer fixed-bottom btn-dark">
+    <div class="container-fluid">
+        <div class="text-center">
+            <small>Copyright © OAU Computer Science & Engineering CBT System 2018</small>
+        </div>
+    </div>
+</footer>
+
 </html>

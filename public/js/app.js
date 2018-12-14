@@ -402,106 +402,6 @@ module.exports = g;
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(22);
-
-var DEFAULT_CONTENT_TYPE = {
-  'Content-Type': 'application/x-www-form-urlencoded'
-};
-
-function setContentTypeIfUnset(headers, value) {
-  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
-    headers['Content-Type'] = value;
-  }
-}
-
-function getDefaultAdapter() {
-  var adapter;
-  if (typeof XMLHttpRequest !== 'undefined') {
-    // For browsers use XHR adapter
-    adapter = __webpack_require__(8);
-  } else if (typeof process !== 'undefined') {
-    // For node use HTTP adapter
-    adapter = __webpack_require__(8);
-  }
-  return adapter;
-}
-
-var defaults = {
-  adapter: getDefaultAdapter(),
-
-  transformRequest: [function transformRequest(data, headers) {
-    normalizeHeaderName(headers, 'Content-Type');
-    if (utils.isFormData(data) ||
-      utils.isArrayBuffer(data) ||
-      utils.isBuffer(data) ||
-      utils.isStream(data) ||
-      utils.isFile(data) ||
-      utils.isBlob(data)
-    ) {
-      return data;
-    }
-    if (utils.isArrayBufferView(data)) {
-      return data.buffer;
-    }
-    if (utils.isURLSearchParams(data)) {
-      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
-      return data.toString();
-    }
-    if (utils.isObject(data)) {
-      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
-      return JSON.stringify(data);
-    }
-    return data;
-  }],
-
-  transformResponse: [function transformResponse(data) {
-    /*eslint no-param-reassign:0*/
-    if (typeof data === 'string') {
-      try {
-        data = JSON.parse(data);
-      } catch (e) { /* Ignore */ }
-    }
-    return data;
-  }],
-
-  timeout: 0,
-
-  xsrfCookieName: 'XSRF-TOKEN',
-  xsrfHeaderName: 'X-XSRF-TOKEN',
-
-  maxContentLength: -1,
-
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  }
-};
-
-defaults.headers = {
-  common: {
-    'Accept': 'application/json, text/plain, */*'
-  }
-};
-
-utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
-  defaults.headers[method] = {};
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
-});
-
-module.exports = defaults;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
-
-/***/ }),
-/* 3 */
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -608,6 +508,106 @@ module.exports = function normalizeComponent (
   }
 }
 
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(0);
+var normalizeHeaderName = __webpack_require__(22);
+
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(8);
+  } else if (typeof process !== 'undefined') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(8);
+  }
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Content-Type');
+    if (utils.isFormData(data) ||
+      utils.isArrayBuffer(data) ||
+      utils.isBuffer(data) ||
+      utils.isStream(data) ||
+      utils.isFile(data) ||
+      utils.isBlob(data)
+    ) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+  defaults.headers[method] = {};
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+
+module.exports = defaults;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
 /* 4 */
@@ -13986,7 +13986,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(13);
-module.exports = __webpack_require__(50);
+module.exports = __webpack_require__(53);
 
 
 /***/ }),
@@ -14012,6 +14012,7 @@ window.Vue = __webpack_require__(37);
 Vue.component('Timer', __webpack_require__(40));
 Vue.component('example', __webpack_require__(44));
 Vue.component('exam', __webpack_require__(47));
+Vue.component('navbar', __webpack_require__(50));
 
 var app = new Vue({
 
@@ -35188,7 +35189,7 @@ module.exports = __webpack_require__(19);
 var utils = __webpack_require__(0);
 var bind = __webpack_require__(6);
 var Axios = __webpack_require__(21);
-var defaults = __webpack_require__(2);
+var defaults = __webpack_require__(3);
 
 /**
  * Create an instance of Axios
@@ -35271,7 +35272,7 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var defaults = __webpack_require__(2);
+var defaults = __webpack_require__(3);
 var utils = __webpack_require__(0);
 var InterceptorManager = __webpack_require__(30);
 var dispatchRequest = __webpack_require__(31);
@@ -35812,7 +35813,7 @@ module.exports = InterceptorManager;
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(32);
 var isCancel = __webpack_require__(10);
-var defaults = __webpack_require__(2);
+var defaults = __webpack_require__(3);
 var isAbsoluteURL = __webpack_require__(33);
 var combineURLs = __webpack_require__(34);
 
@@ -47296,7 +47297,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(3)
+var normalizeComponent = __webpack_require__(2)
 /* script */
 var __vue_script__ = __webpack_require__(41)
 /* template */
@@ -47395,7 +47396,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(3)
+var normalizeComponent = __webpack_require__(2)
 /* script */
 var __vue_script__ = __webpack_require__(45)
 /* template */
@@ -47514,7 +47515,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(3)
+var normalizeComponent = __webpack_require__(2)
 /* script */
 var __vue_script__ = __webpack_require__(48)
 /* template */
@@ -47618,19 +47619,24 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
-        duration: Object,
-        questions: String
+        questions: String,
+        id: String,
+        start_time: String,
+        end_time: String
+
     },
     mounted: function mounted() {
-        //console.log(this.duration.date);
-        var d = this.duration.date;
-        var a = this.studentResponses;
-        this.timer(d);
-        console.log(this.question);
+        this.testQuestions = JSON.parse(this.questions);
+        this.endTime = this.end_time;
+        this.startTime = this.start_time;
     },
     data: function data() {
         return {
@@ -47639,30 +47645,39 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             next_seen: true,
             testQuestions: [],
             studentResponses: new Map(),
-            endTime: ""
+            test_id: '',
+            startTime: '',
+            endTime: '',
+            showQuestions: false,
+            gone: ''
 
         };
     },
     created: function created() {
-        this.fetchQuestion();
-        // window.addEventListener("beforeunload",function (e){
-        //        let message = "if you refresh or leave this page, your response (data) will be lost while your time still counts down";
-        //        (e || window.event).returnValue = message;
-        //        return message;
-        //
-        //    });
-
+        // this.warning();
+        setInterval(this.showQuestion, 1000);
+        this.countdown(new Date(this.start_time).getTime());
+        this.timer(new Date(this.end_time).getTime());
     },
 
 
     methods: {
+        showQuestion: function showQuestion() {
+            var now = new Date().getTime();
+            var start = new Date(this.startTime).getTime();
+            var end = new Date(this.endTime).getTime();
 
-        fetchQuestion: function fetchQuestion() {
+            if (now >= start && now <= end) {
+                this.showQuestions = true;
+            } else {
+                this.showQuestions = false;
+            }
+        },
+
+        fetchQuestion: function fetchQuestion(id) {
             var _this = this;
 
-            var ids = [];
-            this.question_ids = ids;
-            fetch('api/question').then(function (res) {
+            fetch('api/question/' + id).then(function (res) {
                 return res.json();
             }).then(function (res) {
                 _this.testQuestions = res;
@@ -47671,6 +47686,14 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             });
         },
 
+        warning: function warning() {
+
+            window.addEventListener("beforeunload", function (e) {
+                var message = "if you refresh or leave this page, your response (data) will be lost while your time still counts down";
+                (e || window.event).returnValue = message;
+                return message;
+            });
+        },
         visible: function visible() {
             var prev_seen = this.prev_seen;
             var next_seen = this.next_seen;
@@ -47815,11 +47838,11 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         strMapToJson: function strMapToJson(strMap) {
             return JSON.stringify(this.strMapToObj(strMap));
         },
-        timer: function timer(endTime) {
+        countdown: function countdown(time) {
+            var c = this.testQuestions;
+
             // Set the date we're counting down to
             //var countDownDate
-            var d = "Nov 27, 2018 20:44:00";
-            localStorage.setItem('countDownDate', new Date("Dec 06, 2018 12:44:00").getTime());
 
             // Update the count down every 1 second
             var x = setInterval(function () {
@@ -47828,24 +47851,63 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                 var now = new Date().getTime();
 
                 // Find the distance between now and the count down date
-                localStorage.setItem('distance', localStorage.getItem('countDownDate') - now);
-
+                var distance = time - now;
                 // Time calculations for days, hours, minutes and seconds
-                var days = Math.floor(localStorage.getItem('distance') / (1000 * 60 * 60 * 24));
-                var hours = Math.floor(localStorage.getItem('distance') % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
-                var minutes = Math.floor(localStorage.getItem('distance') % (1000 * 60 * 60) / (1000 * 60));
-                var seconds = Math.floor(localStorage.getItem('distance') % (1000 * 60) / 1000);
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor(distance % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
+                var minutes = Math.floor(distance % (1000 * 60 * 60) / (1000 * 60));
+                var seconds = Math.floor(distance % (1000 * 60) / 1000);
 
                 // Display the result in the element with id="demo"
-                document.getElementById("demo").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+
+
+                $('#countdown').html('Countdown to test' + "<br>" + days + 'd: ' + hours + 'h: ' + minutes + 'm: ' + seconds + 's');
 
                 // If the count down is finished, write some text
-                if (localStorage.getItem('distance') <= 0) {
+                if (distance <= 0) {
                     clearInterval(x);
-                    document.getElementById("demo").innerHTML = "EXPIRED";
+
+                    $('#countdown').html('Expired, the test has been taken already.');
+                    // document.getElementById('countdown').innerHTML='Expired, the test has been taken already';
+                }
+            }, 1000);
+        },
+        timer: function timer(endTime) {
+            // Set the date we're counting down to
+            var c = this.showQuestions;
+            var countDownDate = new Date(endTime).getTime();
+
+            // Update the count down every 1 second
+            var x = setInterval(function () {
+
+                // Get todays date and time
+                var now = new Date().getTime();
+
+                // Find the distance between now and the count down date
+                var distance = countDownDate - now;
+
+                // Time calculations for days, hours, minutes and seconds
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor(distance % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
+                var minutes = Math.floor(distance % (1000 * 60 * 60) / (1000 * 60));
+                var seconds = Math.floor(distance % (1000 * 60) / 1000);
+
+                // Display the result in the element with id="demo"
+
+
+                $('#demo').html("<i class='fa fa-clock-o'></i> " + hours + "h " + minutes + "m " + seconds + "s ");
+
+                // If the count down is finished, write some text
+                if (distance <= 0) {
+                    clearInterval(x);
+                    $('#countdown').html('Expired, the test has been taken already.');
+                    // $('#demo').html('EXPIRED');
+
                 }
             }, 1000);
         }
+        //
+
 
     }
 
@@ -47859,207 +47921,223 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("div", { staticClass: "form-group text-center" }, [
-        _c("label", { attrs: { for: "no" } }, [_vm._v("Go to question")]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "form-control-sm",
-          attrs: {
-            id: "no",
-            type: "number",
-            min: "1",
-            max: _vm.testQuestions.length
-          },
-          domProps: { value: _vm.current_question_no + 1 },
-          on: {
-            keyup: function($event) {
-              _vm.goTo(), _vm.visible()
-            },
-            change: function($event) {
-              _vm.goTo(), _vm.visible()
-            }
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _vm._l(_vm.testQuestions, function(testQuestion, index) {
-        return _c("div", { attrs: { id: "question" } }, [
-          _c(
-            "div",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: index === _vm.current_question_no,
-                  expression: "index===current_question_no"
-                }
-              ],
-              attrs: { id: testQuestion.id }
-            },
-            [
-              _c("p", [
-                _c("b", [_vm._v("Q" + _vm._s(_vm.current_question_no + 1))]),
-                _vm._v(": " + _vm._s(testQuestion.question))
-              ]),
-              _vm._v(" "),
-              _c("ol", { attrs: { type: "A" } }, [
-                _c("li", [
-                  _c("label", [
-                    _c("input", {
-                      attrs: {
-                        type: "radio",
-                        name: testQuestion.id,
-                        value: "a"
-                      },
-                      on: {
-                        click: function($event) {
-                          _vm.studentResponse(testQuestion.id, "a")
-                        },
-                        change: function($event) {
-                          _vm.studentResponse(testQuestion.id, "a")
-                        }
-                      }
-                    }),
-                    _vm._v(" " + _vm._s(testQuestion.a))
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("li", [
-                  _c("label", [
-                    _c("input", {
-                      attrs: {
-                        type: "radio",
-                        name: testQuestion.id,
-                        value: "b"
-                      },
-                      on: {
-                        click: function($event) {
-                          _vm.studentResponse(testQuestion.id, "b")
-                        },
-                        change: function($event) {
-                          _vm.studentResponse(testQuestion.id, "b")
-                        }
-                      }
-                    }),
-                    _vm._v(" " + _vm._s(testQuestion.b))
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("li", [
-                  _c("label", [
-                    _c("input", {
-                      attrs: {
-                        type: "radio",
-                        name: testQuestion.id,
-                        value: "c"
-                      },
-                      on: {
-                        click: function($event) {
-                          _vm.studentResponse(testQuestion.id, "c")
-                        },
-                        change: function($event) {
-                          _vm.studentResponse(testQuestion.id, "c")
-                        }
-                      }
-                    }),
-                    _vm._v(" " + _vm._s(testQuestion.c))
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("li", [
-                  _c("label", [
-                    _c("input", {
-                      attrs: {
-                        type: "radio",
-                        name: testQuestion.id,
-                        value: "d"
-                      },
-                      on: {
-                        click: function($event) {
-                          _vm.studentResponse(testQuestion.id, "d")
-                        },
-                        change: function($event) {
-                          _vm.studentResponse(testQuestion.id, "d")
-                        }
-                      }
-                    }),
-                    _vm._v(" " + _vm._s(testQuestion.d) + " ")
-                  ])
-                ])
-              ])
-            ]
-          )
-        ])
-      }),
-      _vm._v(" "),
-      _c("div", [
-        _c("p", { staticClass: "text-center" }, [
-          _vm.prev_seen
-            ? _c(
-                "button",
-                {
-                  staticClass: "btn btn-sm btn-info float-left",
-                  attrs: { id: "prev" },
-                  on: {
-                    click: function($event) {
-                      _vm.prev(), _vm.visible()
-                    }
-                  }
-                },
-                [_vm._v("< Prev")]
-              )
-            : _vm._e(),
+  return _vm.showQuestions
+    ? _c(
+        "div",
+        [
+          _c("p", {
+            staticClass: "text-danger float-right big-text bg-light",
+            attrs: { id: "demo" }
+          }),
           _vm._v(" "),
-          _c("span", { staticClass: "text-center text-secondary" }, [
-            _vm._v(
-              "Attempted " +
-                _vm._s(_vm.studentResponses.size) +
-                " of " +
-                _vm._s(_vm.testQuestions.length) +
-                " questions."
-            )
-          ]),
-          _vm._v(" "),
-          _vm.next_seen
-            ? _c(
-                "button",
-                {
-                  staticClass: "btn btn-sm btn-info  float-right",
-                  attrs: { id: "next" },
-                  on: {
-                    click: function($event) {
-                      _vm.next(), _vm.visible()
-                    }
-                  }
-                },
-                [_vm._v("Next >")]
-              )
-            : _vm._e()
-        ]),
-        _vm._v(" "),
-        _c("p", { staticClass: "text-center" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-sm btn-danger",
-              attrs: { id: "submit" },
+          _c("div", { staticClass: "form-group text-center" }, [
+            _c("label", { attrs: { for: "no" } }, [_vm._v("Go to question")]),
+            _vm._v(" "),
+            _c("input", {
+              staticClass: "form-control-sm",
+              attrs: {
+                id: "no",
+                type: "number",
+                min: "1",
+                max: _vm.testQuestions.length
+              },
+              domProps: { value: _vm.current_question_no + 1 },
               on: {
-                click: function($event) {
-                  _vm.submitTest()
+                keyup: function($event) {
+                  _vm.goTo(), _vm.visible()
+                },
+                change: function($event) {
+                  _vm.goTo(), _vm.visible()
                 }
               }
-            },
-            [_vm._v("Submit "), _c("i", { staticClass: "fa fa-lock" })]
-          )
-        ])
-      ])
-    ],
-    2
-  )
+            })
+          ]),
+          _vm._v(" "),
+          _vm._l(_vm.testQuestions, function(testQuestion, index) {
+            return _c("div", { attrs: { id: "question" } }, [
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: index === _vm.current_question_no,
+                      expression: "index===current_question_no"
+                    }
+                  ],
+                  attrs: { id: testQuestion.id }
+                },
+                [
+                  _c("p", [
+                    _c("b", [
+                      _vm._v("Q" + _vm._s(_vm.current_question_no + 1))
+                    ]),
+                    _vm._v(": " + _vm._s(testQuestion.question))
+                  ]),
+                  _vm._v(" "),
+                  _c("ul", { staticStyle: { "list-style": "none" } }, [
+                    _c("li", { staticClass: "mb-2" }, [
+                      _c("label", [
+                        _vm._v("A. "),
+                        _c("input", {
+                          attrs: {
+                            type: "radio",
+                            name: testQuestion.id,
+                            value: "a"
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.studentResponse(testQuestion.id, "a")
+                            },
+                            change: function($event) {
+                              _vm.studentResponse(testQuestion.id, "a")
+                            }
+                          }
+                        }),
+                        _vm._v(" " + _vm._s(testQuestion.a))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("li", { staticClass: "mb-2" }, [
+                      _c("label", [
+                        _vm._v("B. "),
+                        _c("input", {
+                          attrs: {
+                            type: "radio",
+                            name: testQuestion.id,
+                            value: "b"
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.studentResponse(testQuestion.id, "b")
+                            },
+                            change: function($event) {
+                              _vm.studentResponse(testQuestion.id, "b")
+                            }
+                          }
+                        }),
+                        _vm._v(" " + _vm._s(testQuestion.b))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("li", { staticClass: "mb-2" }, [
+                      _c("label", [
+                        _vm._v("C. "),
+                        _c("input", {
+                          attrs: {
+                            type: "radio",
+                            name: testQuestion.id,
+                            value: "c"
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.studentResponse(testQuestion.id, "c")
+                            },
+                            change: function($event) {
+                              _vm.studentResponse(testQuestion.id, "c")
+                            }
+                          }
+                        }),
+                        _vm._v(" " + _vm._s(testQuestion.c))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("li", { staticClass: "mb-2 fa" }, [
+                      _c("label", [
+                        _vm._v("D. "),
+                        _c("input", {
+                          attrs: {
+                            type: "radio",
+                            name: testQuestion.id,
+                            value: "d"
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.studentResponse(testQuestion.id, "d")
+                            },
+                            change: function($event) {
+                              _vm.studentResponse(testQuestion.id, "d")
+                            }
+                          }
+                        }),
+                        _vm._v(" " + _vm._s(testQuestion.d) + " ")
+                      ])
+                    ])
+                  ])
+                ]
+              )
+            ])
+          }),
+          _vm._v(" "),
+          _c("div", [
+            _c("p", { staticClass: "text-center" }, [
+              _vm.prev_seen
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-sm btn-info float-left",
+                      attrs: { id: "prev" },
+                      on: {
+                        click: function($event) {
+                          _vm.prev(), _vm.visible()
+                        }
+                      }
+                    },
+                    [_vm._v("< Prev")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _c("span", { staticClass: "text-center text-secondary" }, [
+                _vm._v(
+                  "Attempted " +
+                    _vm._s(_vm.studentResponses.size) +
+                    " of " +
+                    _vm._s(_vm.testQuestions.length) +
+                    " questions."
+                )
+              ]),
+              _vm._v(" "),
+              _vm.next_seen
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-sm btn-info  float-right",
+                      attrs: { id: "next" },
+                      on: {
+                        click: function($event) {
+                          _vm.next(), _vm.visible()
+                        }
+                      }
+                    },
+                    [_vm._v("Next >")]
+                  )
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("p", { staticClass: "text-center" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-sm btn-danger",
+                  attrs: { id: "submit" },
+                  on: {
+                    click: function($event) {
+                      _vm.submitTest()
+                    }
+                  }
+                },
+                [_vm._v("Submit "), _c("i", { staticClass: "fa fa-lock" })]
+              )
+            ])
+          ])
+        ],
+        2
+      )
+    : _c("div", {
+        staticClass: "text-lg-center text-danger",
+        attrs: { id: "countdown" }
+      })
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -48073,6 +48151,170 @@ if (false) {
 
 /***/ }),
 /* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(51)
+/* template */
+var __vue_template__ = __webpack_require__(52)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/NavBar.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-046a7e32", Component.options)
+  } else {
+    hotAPI.reload("data-v-046a7e32", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 51 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+
+        start_time: String,
+        end_time: String
+
+    },
+    mounted: function mounted() {
+
+        this.endTime = this.end_time;
+        this.startTime = this.start_time;
+    },
+    data: function data() {
+        return {
+            startTime: '',
+            endTime: ''
+
+        };
+    },
+    created: function created() {
+        this.timer(new Date(this.end_time).getTime());
+    },
+
+
+    methods: {
+        timer: function timer(endTime) {
+            // Set the date we're counting down to
+
+            var countDownDate = new Date(endTime).getTime();
+
+            // Update the count down every 1 second
+            var x = setInterval(function () {
+
+                // Get todays date and time
+                var now = new Date().getTime();
+
+                // Find the distance between now and the count down date
+                var distance = countDownDate - now;
+
+                // Time calculations for days, hours, minutes and seconds
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor(distance % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
+                var minutes = Math.floor(distance % (1000 * 60 * 60) / (1000 * 60));
+                var seconds = Math.floor(distance % (1000 * 60) / 1000);
+
+                // Display the result in the element with id="demo"
+                document.getElementById("demo").innerHTML = "Exam ends at: " + hours + "h " + minutes + "m " + seconds + "s ";
+
+                // If the count down is finished, write some text
+                if (distance <= 0) {
+                    clearInterval(x);
+                    document.getElementById("demo").innerHTML = "EXPIRED";
+                }
+            }, 1000);
+        }
+
+    }
+
+});
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("nav", { staticClass: "navbar  navbar-dark bg-dark" }, [
+    _c("a", { staticClass: "navbar-brand", attrs: { href: "#" } }, [
+      _vm._v("CBT")
+    ]),
+    _vm._v(" "),
+    _c("ul", { staticClass: "navbar-nav ml-auto" }, [
+      _c("li", { staticClass: "nav-item" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
+          _vm.testQuestions
+            ? _c("p", {
+                staticClass: "float-right text-danger",
+                attrs: { id: "demo" }
+              })
+            : _vm._e()
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-046a7e32", module.exports)
+  }
+}
+
+/***/ }),
+/* 53 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

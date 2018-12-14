@@ -17,6 +17,7 @@ window.Vue = require('vue');
 Vue.component('Timer', require('./components/Timer.vue'));
 Vue.component('example', require('./components/ExampleComponent.vue'));
 Vue.component('exam', require('./components/Exam.vue'));
+Vue.component('navbar', require('./components/NavBar.vue'));
 
 const app = new Vue({
 	

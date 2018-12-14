@@ -14,6 +14,22 @@
     <link href="{{URL::asset('assets/css/sb-admin.css')}}" rel="stylesheet">
     <!-- Page level plugin CSS-->
     <link href="{{URL::asset('assets/vendor/datatables/dataTables.bootstrap4.css')}}" rel="stylesheet">
+    <style>
+        .flex-center {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
+        .position-ref {
+            position: relative;
+        }
+        .full-height {
+            height: 50vh;
+        }
+        .content {
+            text-align: center;
+        }
+    </style>
 </head>
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
 <!-- Navigation-->
@@ -34,9 +50,15 @@
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Register Test">
                     <a class="nav-link" href="{{url('student/course_reg')}}">
                         <i class="fa fa-fw fa-book"></i>
-                        <span class="nav-link-text"> Course Registration</span>
+                        <span class="nav-link-text"> Register Test</span>
                     </a>
                 </li>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Take Test">
+                <a class="nav-link" href="{{url('student/select_test')}}">
+                    <i class="fa fa-fw fa-book fa fa-fw fa-book"></i>
+                    <span class="nav-link-text"> Take Test</span>
+                </a>
+            </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Logout">
                 <a class="nav-link" data-toggle="modal" data-target="#LogoutModal">
                     <i class="fa fa-fw fa-sign-out"></i>
@@ -110,12 +132,7 @@
     <script src="{{URL::asset('assets/vendor/chart.js/Chart.min.js')}}"></script>
     <script src="{{URL::asset('assets/vendor/datatables/jquery.dataTables.js')}}"></script>
     <script src="{{URL::asset('assets/vendor/datatables/dataTables.bootstrap4.js')}}"></script>
-    <!-- Custom scripts for all pages-->
-    <script src="{{URL::asset('assets/js/sb-admin.min.js')}}"></script>
-    <!-- Custom scripts for this page-->
-    <script src="{{URL::asset('assets/js/sb-admin-datatables.min.js')}}"></script>
-    <script src="{{URL::asset('assets/js/sb-admin-charts.min.js')}}"></script>
-    <script src="{{URL::asset('cbt.js')}}"></script>
+
     @include('lecturer.lecturerJs')
 
 

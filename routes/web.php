@@ -66,10 +66,12 @@ Route::post('lecturer/update_test','Lecturer@updateTest');
 //----------------------------------- Student---------------------------------------------------------------------------
 //                    ---view----
 Route::view('student/register','student.signup');
-Route::view('student/login','student.login');
+Route::get('student/login','StudentController@login');
 Route::middleware(['student'])->group(function() {
     Route::get('student', 'StudentController@index');
     Route::get('student/course_reg', 'StudentController@CourseReg');
+    Route::get('student/select_test','StudentController@selectTest');
+//    Route::get('student/s','StudentController@testIds');
 
 });
 //---------------validation---------------
@@ -78,12 +80,12 @@ Route::post('student/valid_login', 'StudentController@validLogin');
 Route::get('student/logout', 'StudentController@logout');
 Route::post('student/valid_reg', 'StudentController@validReg');
 Route::post('student/drop_course', 'StudentController@dropCourse');
+Route::post('student/taking_test', 'StudentController@take_test');
 
 
 //-----------------------------Exam-----------------------------------------
 //Route::view('exam','exam.exam');
-Route::get('test','Exam@index');
-Route::get('test/select','Exam@selectTest');
+Route::get('test/{id}','Exam@index')->where('id','[0-9]+')->middleware('student');
 Route::post('test/submit','Exam@submit');
 
 

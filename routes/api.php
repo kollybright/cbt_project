@@ -17,8 +17,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 
 });
-Route::get('question',function(){
-    $question = \App\Question::select('id','question','a','b','c','d')->where(['course_id'=>1])->get();
+Route::get('question/{id}',function(){
+    $question = \App\Question::select('id','question','a','b','c','d')->where(['course_id'=>$id])->get();
     return  ($question);
 });
 

@@ -1,5 +1,6 @@
 <template>
- <div>
+ <div v-if="showQuestions">
+  <p class="text-danger float-right big-text bg-light" id="demo"></p>
   <div class="form-group text-center">
    <label for="no">Go to question</label>
    <input  id="no" type="number" min="1" v-bind:max="testQuestions.length"  v-bind:value="current_question_no+1" class="form-control-sm"  @keyup="goTo(),visible()" @change="goTo(),visible()">
@@ -8,33 +9,33 @@
   <div id="question" v-for="(testQuestion,index) in testQuestions">
    <div v-bind:id="testQuestion.id" v-show="index===current_question_no">
     <p><b>Q{{current_question_no+1}}</b>: {{testQuestion.question}}</p>
-    <ol type="A">
+    <ul style="list-style: none">
 
-     <li>
-      <label><input type="radio" v-bind:name="testQuestion.id" value="a"
+     <li class="mb-2">
+      <label>A. <input type="radio" v-bind:name="testQuestion.id" value="a"
                     @click="studentResponse(testQuestion.id,'a')"
                     @change= "studentResponse(testQuestion.id,'a')"> {{testQuestion.a}}</label>
      </li>
 
-     <li>
-      <label><input type="radio" v-bind:name="testQuestion.id"  value="b"
+     <li class="mb-2">
+      <label>B. <input type="radio" v-bind:name="testQuestion.id"  value="b"
                     @click="studentResponse(testQuestion.id,'b')"
                     @change= "studentResponse(testQuestion.id,'b')"> {{testQuestion.b}}</label>
      </li>
 
-     <li>
-      <label><input type="radio" v-bind:name= "testQuestion.id" value="c"
+     <li class="mb-2">
+      <label>C. <input type="radio" v-bind:name= "testQuestion.id" value="c"
                     @click="studentResponse(testQuestion.id,'c')"
                     @change= "studentResponse(testQuestion.id,'c')"> {{testQuestion.c}}</label>
      </li>
 
-     <li>
-      <label><input type="radio" v-bind:name="testQuestion.id" value="d"
+     <li class="mb-2 fa">
+      <label>D. <input type="radio" v-bind:name="testQuestion.id" value="d"
                     @click="studentResponse(testQuestion.id,'d')"
                     @change= "studentResponse(testQuestion.id,'d')" > {{testQuestion.d}} </label>
      </li>
 
-    </ol>
+    </ul>
    </div>
   </div>
   <div>
@@ -49,20 +50,24 @@
   </div>
 
  </div>
+ <div v-else id="countdown" class="text-lg-center text-danger" >
+
+ </div>
 </template>
 <script>
 
     export default{
         props: {
-            duration: Object,
-            questions: String
+            questions: String,
+            id:  String,
+            start_time:  String,
+            end_time: String
+
         },
         mounted (){
-            //console.log(this.duration.date);
-            let d = this.duration.date;
-            let a= this.studentResponses;
-            this.timer(d);
-            console.log(this.question)
+            this.testQuestions= JSON.parse(this.questions);
+            this.endTime= this.end_time;
+            this.startTime= this.start_time;
 
 
 
@@ -74,19 +79,20 @@
                 next_seen : true,
                 testQuestions : [],
                 studentResponses: new Map(),
-                endTime : ""
+                test_id:'',
+                startTime:'',
+                endTime : '',
+                showQuestions:false,
+                gone:''
 
             }
         },
 
         created(){
-            this.fetchQuestion();
-            // window.addEventListener("beforeunload",function (e){
-            //        let message = "if you refresh or leave this page, your response (data) will be lost while your time still counts down";
-            //        (e || window.event).returnValue = message;
-            //        return message;
-            //
-            //    });
+            // this.warning();
+            setInterval(this.showQuestion,1000);
+            this.countdown(new Date(this.start_time).getTime());
+            this.timer(new Date(this.end_time).getTime());
 
 
 
@@ -95,21 +101,43 @@
         },
 
         methods:{
+            showQuestion: function(){
+                let now = new Date().getTime();
+                let start=new Date (this.startTime).getTime();
+                let end= new Date(this.endTime).getTime();
 
-            fetchQuestion: function(){
-                let ids = [];
-                this.question_ids= ids;
-                fetch('api/question')
+
+                if( now >= start && now <= end ){
+                    this.showQuestions= true;
+
+                }
+                else{
+                    this.showQuestions= false;
+
+                }
+
+
+            },
+
+            fetchQuestion: function(id){
+
+                fetch('api/question/'+id)
                     .then(res => res.json())
             .then(res => {
                     this.testQuestions = res;
-
             })
-
-
             .catch(err => console.log(err));
             },
 
+            warning: function(){
+
+                window.addEventListener("beforeunload",function (e){
+                    let message = "if you refresh or leave this page, your response (data) will be lost while your time still counts down";
+                    (e || window.event).returnValue = message;
+                    return message;
+
+                });
+            },
             visible: function () {
                 let prev_seen = this.prev_seen;
                 let next_seen = this.next_seen;
@@ -220,7 +248,7 @@
                     ids.push(keys);
 
 
-                })
+                });
 
 
                 return ids;
@@ -236,7 +264,7 @@
 
                     response.push(values);
 
-                })
+                });
 
 
                 return response;
@@ -264,11 +292,11 @@
                 return JSON.stringify(this.strMapToObj(strMap));
 
             },
-            timer : function(endTime){
+            countdown: function (time) {
+                var c= this.testQuestions;
+
                 // Set the date we're counting down to
                 //var countDownDate
-                var d= "Nov 27, 2018 20:44:00";
-                localStorage.setItem('countDownDate', new Date("Dec 06, 2018 12:44:00").getTime());
 
                 // Update the count down every 1 second
                 var x = setInterval(function() {
@@ -278,22 +306,65 @@
                     var now = new Date().getTime();
 
                     // Find the distance between now and the count down date
-                    localStorage.setItem('distance',localStorage.getItem('countDownDate') - now);
-
+                    var distance = time - now;
                     // Time calculations for days, hours, minutes and seconds
-                    var days = Math.floor(localStorage.getItem('distance') / (1000 * 60 * 60 * 24));
-                    var hours = Math.floor((localStorage.getItem('distance') % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    var minutes = Math.floor((localStorage.getItem('distance') % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((localStorage.getItem('distance') % (1000 * 60)) / 1000);
+                    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
                     // Display the result in the element with id="demo"
-                    document.getElementById("demo").innerHTML = hours + "h "
-                        + minutes + "m " + seconds + "s ";
+
+
+
+                        $('#countdown').html('Countdown to test' + "<br>" + days + 'd: ' + hours + 'h: ' + minutes + 'm: ' + seconds + 's');
 
                     // If the count down is finished, write some text
-                    if (localStorage.getItem('distance') <= 0) {
+                    if (distance <= 0) {
                         clearInterval(x);
-                        document.getElementById("demo").innerHTML = "EXPIRED";
+
+                        $('#countdown').html('Expired, the test has been taken already.');
+                        // document.getElementById('countdown').innerHTML='Expired, the test has been taken already';
+
+                    }
+
+                }, 1000);
+
+
+
+            },
+            timer : function(endTime){
+                // Set the date we're counting down to
+                var c= this.showQuestions;
+                var countDownDate = new Date(endTime).getTime();
+
+                // Update the count down every 1 second
+                var x = setInterval(function() {
+
+
+                    // Get todays date and time
+                    var now = new Date().getTime();
+
+                    // Find the distance between now and the count down date
+                    var distance = countDownDate - now;
+
+                    // Time calculations for days, hours, minutes and seconds
+                    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    // Display the result in the element with id="demo"
+
+
+                   $('#demo').html("<i class='fa fa-clock-o'></i> " +hours + "h " + minutes + "m " + seconds + "s ");
+
+
+                    // If the count down is finished, write some text
+                    if (distance <= 0) {
+                        clearInterval(x);
+                        $('#countdown').html('Expired, the test has been taken already.');
+                        // $('#demo').html('EXPIRED');
 
 
                     }
@@ -303,10 +374,7 @@
 
 
             }
-
-
-
-
+            //
 
 
         }

@@ -8,6 +8,7 @@ use App\Test;
 use Faker\Provider\zh_CN\DateTime;
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\App;
 
 class StudentController extends Controller
 {
@@ -27,6 +28,14 @@ class StudentController extends Controller
             ->get();
 
         return view('student.home',['test'=>$test]);
+    }
+    function  login(){
+        if(session()->has('student_logged_in')){
+            return redirect()->action('StudentController@index');
+        }
+        else{
+            return view('student.login');
+        }
     }
 
     function courseReg(){
@@ -49,7 +58,27 @@ class StudentController extends Controller
             ->get();
         return view('student.course',['test'=>$test]);
     }
+    function testIds(){
+        $id= session()->get('student_id');
+        $test_ids=[];
+        $test= new Registration();
+        $data= $test->where(['student_id'=>$id])->select('test_id')->get();
+        foreach ($data as $val){
+            array_push($test_ids,$val->test_id);
+        }
+        return $test_ids;
+    }
+    function  selectTest(){
 
+        $tests= \App\Test::join('course','test.course_id','=','course.id')
+            ->select('test.*','course.course_code','course.course_title')
+            ->whereIn('test.id',$this->testIds())
+            ->orderBy('test.created_at','DESC')
+            ->getQuery()
+            ->get();
+        return view('exam.selectTest',['test'=>$tests]);
+
+    }
 
 
     ///-----------------------validation-----------------------------
@@ -152,12 +181,27 @@ class StudentController extends Controller
         }
 
     }
+    function take_test(Request $request){
+        $this->validate($request,[
+            'test_id'=>'required'
+        ]);
+        if ($request->input('test_id')=="null"){
+
+            return back()->with("fail","Please select a valid test.");
+        }
+        else{
+            session()->put('take_exam',true);
+            return redirect("test/".$request->input('test_id'));
+        }
+    }
 
     function logout(Request $request){
-        $request->session()->forget(['student_logged_in']);
+        $request->session()->forget(['student_logged_in','take_exam']);
         return redirect('student/login');
 
     }
+
+
 
 
 

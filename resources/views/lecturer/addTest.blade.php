@@ -13,12 +13,12 @@
             <br>
             <form method="POST"  action="{{url('lecturer/test_add')}}">
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
-                <div class="form-group">
-                    <label for="no_of_questions">No of Questions</label>
-                    <input class="form-control{{$errors->has('no_of_questions')?'is-invalid':''}}" name="no_of_questions" id="no_of_questions"  value="{{old('no_of_questions')}}" type="number" min="1"  max="{{$totalQuestion}}" placeholder="Enter Number Of Questions" required>
-                    <small class="text-danger">{{$errors->has('no_of_questions')?$errors->first('no_of_questions'):''}}
-                    </small>
-                </div>
+                {{--<div class="form-group">--}}
+                    {{--<label for="no_of_questions">No of Questions</label>--}}
+                    {{--<input class="form-control{{$errors->has('no_of_questions')?'is-invalid':''}}" name="no_of_questions" id="no_of_questions"  value="{{old('no_of_questions')}}" type="number" min="1"  max="{{$totalQuestion}}" placeholder="Enter Number Of Questions" required>--}}
+                    {{--<small class="text-danger">{{$errors->has('no_of_questions')?$errors->first('no_of_questions'):''}}--}}
+                    {{--</small>--}}
+                {{--</div>--}}
                 <div class="form-group">
                     <label for=exam_duration"">Exam Duration (minutes)</label>
                     <input class="form-control{{$errors->has('exam_duration')?'is-invalid':''}}" name="exam_duration" id="exam_duration"  value="{{old('exam_duration')}}" type="number" min="1"  placeholder="Enter Exam Duration In Minutes" required>

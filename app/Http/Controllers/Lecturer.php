@@ -279,7 +279,7 @@ class Lecturer extends Controller
         $test= new Test();
         $this->validate($request,[
             'course_id'=>'required|numeric',
-            'no_of_questions'=>'required|numeric',
+//            'no_of_questions'=>'required|numeric',
             'exam_duration'=>'required|numeric',
             'start_date'=>'required',
             'session'=>'required||regex:/(^([0-9]{4})\/([0-9]{4})$)/',
@@ -290,7 +290,7 @@ class Lecturer extends Controller
         $test->course_id = $request->course_id;
         $test->start_time = $request->start_date;
         $test->duration = $request->exam_duration;
-        $test->no_of_question = $request->no_of_questions;
+//        $test->no_of_question = $request->no_of_questions;
         $test->session = $request->input('session');
         $exists= $test->where(['session'=>$request->input('session'),'course_id'=>$request->course_id])->get()->count();
         if($exists!=0) {
@@ -330,7 +330,7 @@ class Lecturer extends Controller
         $test= \App\Test::find($request->id);
         $test->start_time = $request->start_time;
         $test->duration = $request->duration;
-        $test->no_of_question = $request->no_of_question;
+//        $test->no_of_question = $request->no_of_question;
         $test->session = $request->input('session');
         if ($test->save()){
             return "Updated successfully";
