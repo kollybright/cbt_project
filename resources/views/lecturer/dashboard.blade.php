@@ -23,7 +23,7 @@
             <div class="card">
                 <div class="card-header text-center text-info"><h5>Attached Courses</h5></div>
                 <div class="card-body">
-                    <table class="table table-responsive-sm table-hover">
+                    <table  id="courses" class="table table-responsive-sm table-hover">
                         <thead>
                         <tr>
                             <th>Course Code</th>

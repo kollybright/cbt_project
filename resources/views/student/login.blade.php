@@ -21,6 +21,10 @@
 
 <body class="bg-dark">
 <div class="container">
+    <br>
+    @if(session()->has('submitted'))<div class="alert alert-success text-center">{{session('submitted')}}</div>
+    @endif
+
     {{--{{sha1('kolawole1')}}--}}
     <div class="card card-login mx-auto mt-5">
         <div class="card-header">Student Login page</div>

@@ -45,6 +45,8 @@ Route::middleware(['lecturer'])->group(function(){
     Route::get('lecturer/{id}/add_test','Lecturer@addTestView')->where('id','[0-9]+');
     Route::get('lecturer/{id}/scheduled_test','Lecturer@ScheduledTestView')->where('id','[0-9]+');
     Route::get('lecturer/{id}/question_upload','Lecturer@batchInsertView')->where('id','[0-9]+');
+    Route::get('lecturer/{id}/test_result','Lecturer@testResult')->where('id','[0-9]+');
+
 
 
 });
@@ -61,6 +63,7 @@ Route::post('lecturer/group_delete_question','Lecturer@groupDeleteQuestion');
 Route::post('lecturer/modify_question','Lecturer@modifyQuestion');
 Route::post('lecturer/test_delete','Lecturer@deleteTest');
 Route::post('lecturer/update_test','Lecturer@updateTest');
+Route::post('lecturer/view_result','Lecturer@viewResult');
 
 
 //----------------------------------- Student---------------------------------------------------------------------------
@@ -87,8 +90,16 @@ Route::post('student/taking_test', 'StudentController@take_test');
 //Route::view('exam','exam.exam');
 Route::get('test/{id}','Exam@index')->where('id','[0-9]+')->middleware('student');
 Route::post('test/submit','Exam@submit');
-
-
+Route::get('a',function (){
+    $query = DB::table('response')->query("select count(*) from response inner join questions on response.question_id=questions.id 
+where  response.student_id=2 and response.test_id=1 and response.response=questions.correct_option")->get();
+//        ->join('questions','response.question_id','=','questions.id')
+//        ->select('response.response', 'questions.correct_option')
+//        ->where('response.student_id',2)
+//        ->where('response.test_id',1)
+//        ->get();
+ echo $query;
+});
 
 
 

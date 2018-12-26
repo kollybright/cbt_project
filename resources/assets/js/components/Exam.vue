@@ -11,25 +11,25 @@
     <p><b>Q{{current_question_no+1}}</b>: {{testQuestion.question}}</p>
     <ul style="list-style: none">
 
-     <li class="mb-2">
+     <li class="mb-1">
       <label>A. <input type="radio" v-bind:name="testQuestion.id" value="a"
                     @click="studentResponse(testQuestion.id,'a')"
                     @change= "studentResponse(testQuestion.id,'a')"> {{testQuestion.a}}</label>
      </li>
 
-     <li class="mb-2">
+     <li class="mb-1">
       <label>B. <input type="radio" v-bind:name="testQuestion.id"  value="b"
                     @click="studentResponse(testQuestion.id,'b')"
                     @change= "studentResponse(testQuestion.id,'b')"> {{testQuestion.b}}</label>
      </li>
 
-     <li class="mb-2">
+     <li class="mb-1">
       <label>C. <input type="radio" v-bind:name= "testQuestion.id" value="c"
                     @click="studentResponse(testQuestion.id,'c')"
                     @change= "studentResponse(testQuestion.id,'c')"> {{testQuestion.c}}</label>
      </li>
 
-     <li class="mb-2 fa">
+     <li class="mb-1">
       <label>D. <input type="radio" v-bind:name="testQuestion.id" value="d"
                     @click="studentResponse(testQuestion.id,'d')"
                     @change= "studentResponse(testQuestion.id,'d')" > {{testQuestion.d}} </label>
@@ -50,9 +50,12 @@
   </div>
 
  </div>
- <div v-else id="countdown" class="text-lg-center text-danger" >
-
+ <div v-else id="countdown" class="text-lg-center text-danger">
+  <br>
+  <span id="ajax-response"></span>
  </div>
+
+
 </template>
 <script>
 
@@ -68,6 +71,7 @@
             this.testQuestions= JSON.parse(this.questions);
             this.endTime= this.end_time;
             this.startTime= this.start_time;
+            this.test_id= this.id;
 
 
 
@@ -83,7 +87,7 @@
                 startTime:'',
                 endTime : '',
                 showQuestions:false,
-                gone:''
+
 
             }
         },
@@ -94,13 +98,9 @@
             this.countdown(new Date(this.start_time).getTime());
             this.timer(new Date(this.end_time).getTime());
 
-
-
-
-
         },
-
         methods:{
+
             showQuestion: function(){
                 let now = new Date().getTime();
                 let start=new Date (this.startTime).getTime();
@@ -197,9 +197,6 @@
             },
             submitTest: function(){
                 let response = confirm("Are you ready to submit the test?");
-
-
-
                 if (response===true){
                     this.submit();
 
@@ -208,21 +205,27 @@
             },
 
             submit: function(){
-                let ids = this.getResponseIds();
-                let options= this.getResponseOptions();
+                // let ids = this.getResponseIds();
+                // let options= this.getResponseOptions();
+                let test_id = this.test_id;
+                let responses= this.mapToJson(this.studentResponses);
                 let token = window.Laravel.csrfToken;
+                let total= this.testQuestions.length;
 
 
                 $.ajax({
                     type: 'POST',
                     url: '/test/submit',
-                    data : { _token:token, question_id:ids, option:options},
-
-                    complete: function(){
-
+                    data : { _token:token, responses:responses,test_id:test_id, total:total},
+                    beforeSend: function(){
+                        $('#ajax-response').html('Submitting response....')
                     },
-                    success:function(result){
-                        alert(JSON.stringify(result));
+                    complete: function(){
+                        $('#ajax-response').html('Your response have been submitted')
+                    },
+                    success:function(){
+                        // alert(JSON.stringify(result));
+                        window.location= "http://localhost:8000/student/logout";
                     }
 
 
@@ -233,7 +236,7 @@
             studentResponse: function (id,option){
                 this.studentResponses.set(id,option);
                 //console.log(this.strMapToObj(this.studentResponses));
-                console.log(this.studentResponses);
+                // console.log(this.studentResponses);
 
 
 
@@ -322,8 +325,8 @@
                     // If the count down is finished, write some text
                     if (distance <= 0) {
                         clearInterval(x);
-
                         $('#countdown').html('Expired, the test has been taken already.');
+
                         // document.getElementById('countdown').innerHTML='Expired, the test has been taken already';
 
                     }
@@ -335,24 +338,25 @@
             },
             timer : function(endTime){
                 // Set the date we're counting down to
-                var c= this.showQuestions;
-                var countDownDate = new Date(endTime).getTime();
+
+
+                let countDownDate = new Date(endTime).getTime();
 
                 // Update the count down every 1 second
-                var x = setInterval(function() {
+                let x = setInterval(function() {
 
 
                     // Get todays date and time
-                    var now = new Date().getTime();
+                    let now = new Date().getTime();
 
                     // Find the distance between now and the count down date
-                    var distance = countDownDate - now;
+                    let distance = countDownDate - now;
 
                     // Time calculations for days, hours, minutes and seconds
-                    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
                     // Display the result in the element with id="demo"
 
@@ -363,8 +367,10 @@
                     // If the count down is finished, write some text
                     if (distance <= 0) {
                         clearInterval(x);
+                        localStorage.setItem('sendResponse','true')
                         $('#countdown').html('Expired, the test has been taken already.');
-                        // $('#demo').html('EXPIRED');
+                       // $('#demo').html('EXPIRED');
+
 
 
                     }

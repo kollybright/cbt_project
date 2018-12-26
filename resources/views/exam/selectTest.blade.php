@@ -16,7 +16,7 @@
                         @endif
 
                         @foreach($test as $key=>$value)
-                            <option value="{{$value->id}}">{{$value->course_code}} - {{$value->course_title}} </option>
+                            <option value="{{$value->id}}">{{$value->course_code}} - {{$value->course_title}}: {{$value->session}} </option>
                         @endforeach
                     </select>
                     <br>
@@ -33,7 +33,7 @@
             </div>
         @else
             <div class="alert  alert-danger">
-                You have not registered for any test.
+               No available test to take.
             </div>
         @endif
     </div>

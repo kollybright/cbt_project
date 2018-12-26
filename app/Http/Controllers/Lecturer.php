@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Course;
 use App\Question;
 use App\Registration;
+use App\Result;
 use App\Student;
+use App\StudentResponse;
 use App\Test;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -127,6 +129,22 @@ class Lecturer extends Controller
 
 
     }
+    function  testResult($id){
+        $courses= new Course();
+        $all_courses= $courses->where('lecturer_id',session('lecturer_id'))->orderBy('created_at','DESC')->get();
+        $test = new Test();
+        $tests=$test->where('course_id',$id)->orderBy('created_at','DESC')->get();
+        if(!$courses->where('lecturer_id',session('lecturer_id'))->find($id)){
+            return view('404');
+        }
+        else
+        {
+            $course= $courses->where('id', $id)->first();
+            return view('lecturer.result',['course' => $course,'test'=>$tests,'courses'=>$all_courses])->with('display',$id);
+        }
+
+
+    }
     // --------------------    end of view  ----------------------------------------------
 
     // ------------------------  Validation-------------------------------------------------
@@ -229,7 +247,11 @@ class Lecturer extends Controller
     function deleteQuestion(Request $request){
         $question= new Question();
         $id = $request->input('id');
-        if($question->destroy($id)){
+        $student_response= new StudentResponse();
+        $response_exist=$student_response->where('question_id',$id)->get();
+        $delete=count($response_exist)!=0?($student_response->where('question_id',$id)->delete() && $question->destroy($id)):$question->destroy($id);
+
+        if($delete){
             return "Deleted successfully";
         }
         else{
@@ -238,8 +260,20 @@ class Lecturer extends Controller
     }
     function trashQuestion(Request $request){
         $question= new Question();
+        $test = new Test();
+        $student_response= new StudentResponse();
         $course_id = $request->input('id');
-        if($question->where('course_id',$course_id)->delete()){
+        $test_ids =[];
+        $test_id = $test->where(['course_id'=>$course_id])->select('id')->get();
+
+        foreach ($test_id as $value){
+            array_push($test_ids,$value->id);
+        }
+
+        $response_exist = $student_response->whereIn('test_id',$test_ids)->get();
+        $delete = count($response_exist)!=0?($student_response->whereIn('test_id',$test_ids)->delete() && $question->where('course_id',$course_id)->delete()):$question->where('course_id',$course_id)->delete();
+
+        if($delete){
             return "Trashed successfully";
         }
         else{
@@ -249,7 +283,12 @@ class Lecturer extends Controller
     function groupDeleteQuestion(Request $request){
         $question= new Question();
         $id = $request->input('id');
-        if($question->destroy($id)){
+
+        $student_response= new StudentResponse();
+        $response_exist=$student_response->whereIn('question_id',$id)->get();
+        $delete=count($response_exist)!=0?($student_response->whereIn('question_id',$id)->delete() && $question->destroy($id)):$question->destroy($id);
+
+        if($delete){
             return "Deleted successfully";
         }
         else{
@@ -344,6 +383,20 @@ class Lecturer extends Controller
         $request->session()->forget('lecturer_logged_in');
         return redirect()->action('Lecturer@login');
 
+    }
+
+    function viewResult(Request $request){
+        $test_id = $request->input('id');
+        $result = new Result();
+        $test= new Test();
+        $now = Date( 'M d, Y H:i:s',strtotime('now'));
+        $test->select('start_time')->first();
+        $data= $result->join('student','result.student_id','=','student.id')
+            ->select('student.matric_no','student.firstname','student.lastname','student.option','result.score','result.total')
+            ->where(['result.test_id'=>$test_id])
+            ->getQuery()
+            ->get();
+        return  \response()->json($data,200);
     }
 
     //---------------------------- Validation---------------------------------------------

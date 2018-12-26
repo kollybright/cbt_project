@@ -80,16 +80,18 @@
                     {{--<img height="100%" width="100%" src="{{asset('images(6).jpg')}}"  alt="">--}}
                 {{--</div>--}}
                 <div class="carousel-item active">
-                    <img src="{{asset('teachers_background.jpg')}}" alt="">
+                    <img src="{{asset('teachers_background.jpg')}}" alt="slider-1">
                 </div>
                 <div class="carousel-item">
-                    <img src="{{asset('review-bg.jpg')}}" alt="">
+                    <img src="{{asset('review-bg.jpg')}}" alt="slider-2">
                 </div>
             </div>
 
             <!-- Left and right controls -->
             <a class="carousel-control-prev" href="#demo" data-slide="prev">
                 <span class="carousel-control-prev-icon"></span>
+
+
             </a>
             <a class="carousel-control-next" href="#demo" data-slide="next">
                 <span class="carousel-control-next-icon"></span>
@@ -99,5 +101,9 @@
 
     </main>
 </div>
+<footer class="sticky-footer fixed-bottom btn-dark text-center" style="height:3em;">
+    Copyright © OAU Computer Science & Engineering CBT System 2018
+</footer>
+
 </body>
 </html>

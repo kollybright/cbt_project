@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Registration;
 use App\Student;
+use App\TakenTest;
 use App\Test;
 use Faker\Provider\zh_CN\DateTime;
 use Illuminate\Http\Request;
@@ -68,11 +69,21 @@ class StudentController extends Controller
         }
         return $test_ids;
     }
+     function TakenTests(){
+         $tests = new TakenTest();
+         $taken_tests = [];
+         $data   = $tests->where(['student_id'=> session('student_id')])->select('test_id')->get();
+         foreach ($data as $val){
+             array_push($taken_tests,$val->test_id);
+         }
+         return $taken_tests;
+     }
     function  selectTest(){
 
         $tests= \App\Test::join('course','test.course_id','=','course.id')
             ->select('test.*','course.course_code','course.course_title')
             ->whereIn('test.id',$this->testIds())
+            ->whereNotIn('test.id',$this->takenTests())
             ->orderBy('test.created_at','DESC')
             ->getQuery()
             ->get();
@@ -182,7 +193,7 @@ class StudentController extends Controller
 
     }
     function take_test(Request $request){
-        $this->validate($request,[
+          $this->validate($request,[
             'test_id'=>'required'
         ]);
         if ($request->input('test_id')=="null"){

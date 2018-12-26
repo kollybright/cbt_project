@@ -3,7 +3,8 @@
     <div class="row">
         <div class="col-12">
             <div>
-                <h5>Creating test for {{$course->course_code}}-{{$course->course_title}}</h5>
+                <h5 class="text-center">Creating test for {{$course->course_code}}-{{$course->course_title}}</h5>
+                <h6 class="text-center">Total Questions Available: {{$totalQuestion}}</h6>
                 @if(session()->has('exists'))
                 <div class="alert-danger text-center font-weight-bold">
                     {{session('exists')}}

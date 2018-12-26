@@ -20,8 +20,8 @@ class CreateResultTable extends Migration
             $table->integer('test_id')->unsigned();
             $table->foreign('student_id')->references('id')->on('student');
             $table->foreign('test_id')->references('id')->on('test');
-            $table->float('score');
-            $table->char('grade');
+            $table->integer('score');
+            $table->integer('total');
             $table->timestamps();
         });
     }

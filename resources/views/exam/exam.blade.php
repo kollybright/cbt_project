@@ -59,12 +59,21 @@
                 v-bind:end_time="{{json_encode($end_time,true)}}">
         </exam>
     </div>
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal_title">Response</h5>
+                </div>
+                <div class="modal-body text-danger big-text" id="result">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-    {{--@else--}}
-    {{--<div class="flex-center mb-5 text-danger" id="countdown">--}}
 
-    {{--</div>--}}
-{{--@endif--}}
+
+
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{URL::asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{URL::asset('assets/vendor/jquery/jquery.min.js')}}"></script>

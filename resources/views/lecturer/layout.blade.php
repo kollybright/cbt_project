@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    {{--<meta name="csrf-token" content="{{csrf_token()}}">--}}
     <title>Lecturer Dashboard</title>
     <link href="{{URL::asset('assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- Custom fonts for this template-->
@@ -14,11 +15,6 @@
     <link href="{{URL::asset('assets/css/sb-admin.css')}}" rel="stylesheet">
     <!-- Page level plugin CSS-->
     <link href="{{URL::asset('assets/vendor/datatables/dataTables.bootstrap4.css')}}" rel="stylesheet">
-    <style>
-       body{
-
-       }
-    </style>
 </head>
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
 <!-- Navigation-->
@@ -66,6 +62,12 @@
                     <a class="nav-link" href="{{url('lecturer')}}/{{$display}}">
                         <i class="fa fa-fw fa-wrench"></i>
                         <span class="nav-link-text">Manage Existing Questions</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Students Test Results">
+                    <a class="nav-link" href="{{url('lecturer')}}/{{$display}}/test_result">
+                        <i class="fa fa-book"></i>
+                        <span class="nav-link-text">Test Results</span>
                     </a>
                 </li>
 

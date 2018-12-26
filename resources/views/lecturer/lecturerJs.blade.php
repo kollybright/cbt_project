@@ -5,9 +5,97 @@
             location.reload();
         });
 
-        $('table').dataTable({
+        $('#courses,#scheduled_test').dataTable({
             "order":[]
         });
+
+        $('#view-result').change(function(event){
+            event.preventDefault();
+            // table.ajax.reload();
+            var test_id= $(this).val();
+            var txt = $(this).text();
+            var token = "{{csrf_token()}}";
+            var url="{{url('lecturer/view_result')}}/"+test_id;
+
+            if(test_id!=="Available results") {
+                $.ajax({
+                    type:'POST',
+                    url:"{{url('lecturer/view_result')}}",
+                    data:{id:test_id,_token:token},
+                    dataType:'json',
+                    beforeSend: function() {
+                        $('#view_result_status').html('Wait, please!.....');
+                    },
+                    error: function (jqXHR, exception) {
+                        var msg = '';
+                        if (jqXHR.status === 0) {
+                            msg = 'Error: Not connected.\n Verify Network.';
+                        } else if (jqXHR.status == 404) {
+                            msg = 'Error: Requested page not found. [404]';
+                        } else if (jqXHR.status == 500) {
+                            msg = 'Error: Internal Server Error [500].';
+                        } else if (exception === 'parsererror') {
+                            msg = 'Error: Requested JSON parse failed.';
+                        } else if (exception === 'timeout') {
+                            msg = 'Error: Time out error.';
+                        } else if (exception === 'abort') {
+                            msg = 'Error: Ajax request aborted.';
+                        }
+                        //laravel
+                        else if (jqXHR.status == 405) {
+                            msg = 'Error: Http method not allowed';
+                        }
+                        else if (jqXHR.status == 419) {
+                            msg = 'Error: No active session,refresh or login';
+                        }
+
+                        else {
+                            // msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                            msg= 'Uncaught Error';
+                        }
+
+                        $('#view_result_status').html(msg);
+                    },
+
+                        success:function(result){
+                        if(result.length==0){
+                            $('#view_result_status').html('No result availabe');
+                        }
+                        else {
+                            $('#view_result_status').html('now showing');
+                        }
+
+                      assignToEventsColumns(result);
+                    },
+
+                });
+
+
+            }
+        });
+        function assignToEventsColumns(data){
+            var table = $("#view_result_table").dataTable({
+               "processing":true,
+                "paging":true,
+                "destroy":true,
+                "bAutoWidth":false,
+                "aaData":data,
+                "columns":[{
+                    "data":"matric_no"
+                },{
+                    "data": "lastname"
+                },{
+                    "data":"firstname"
+                },
+                {
+                    "data":"score"
+                },{
+                    "data":"total"
+                    }
+                    ]
+            });
+        }
+
 
         $('#go_to_course').change(function(event){
             event.preventDefault();
@@ -86,7 +174,7 @@
                     }
                 });
             }
-        })
+        });
 
         $('.edit_question').click(function(){
             var question, a, b, c, d,correct_option,course_id;
