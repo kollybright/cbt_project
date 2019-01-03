@@ -1,5 +1,22 @@
 <script>
+    function printElement(divId){
+        var content = document.getElementById(divId).innerHTML;
+        var myWindow = window.open('','print','height=600,width=800');
+        myWindow.document.write('<html><head><title>print</title>');
+        myWindow.document.write('</head><body>');
+        myWindow.document.write(content);
+        myWindow.document.write('</body></html>');
+        myWindow.document.close();
+        myWindow.focus();
+        myWindow.print();
+        myWindow.close();
+        return true;
+    }
     $(function(){
+
+        // $('#print').click(function () {
+        //     print();
+        // });
         $('#refresh').click(function(){
             $('#modal').modal('hide');
             location.reload();

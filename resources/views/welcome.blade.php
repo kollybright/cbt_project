@@ -21,10 +21,11 @@
 </head>
 <body>
 <div id="app">
-    <nav class="navbar navbar-expand-md navbar-dark navbar-laravel bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-laravel bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">
-              CBT
+            <a class="navbar-brand"  href="{{ url('/') }}">
+                <img class="img-responsive img-round" src="{{asset('OAU_logo.jpg')}}"  height="90" alt="OAU_LOGO">
+                <span class="">CBT System</span>
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                 <span class="navbar-toggler-icon"></span>

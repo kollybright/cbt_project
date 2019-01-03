@@ -6,7 +6,7 @@
        @if(count($test)==0)
           <div class="alert alert-info">There are no new scheduled tests yet, please come back later.</div>
        @else
-                <h4 class="text-center text-info"> Available Course for Registration</h4>
+                <h4 class="text-center text-info"> Available Tests for Registration</h4>
             <form method="post">
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
             <div class="card">

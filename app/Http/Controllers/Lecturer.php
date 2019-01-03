@@ -153,13 +153,14 @@ class Lecturer extends Controller
         $username= $request->input('email');
         $password= sha1($request->input('password'));
         $user= \App\Lecturer::where(['email'=>$username,'password'=>$password])->get()->count();
+        $path = session('link')? redirect(session('link')):redirect()->action('Lecturer@index');
+
 
         if($user==1){
             $id = \App\Lecturer::where('email',$username)->first()->id;
             $lecturer=\App\Lecturer::where(['email'=>$username,'password'=>$password])->select('first_name','last_name')->first();
             $request->session()->put(['lecturer_logged_in'=>'true','lecturer_id'=>$id,'lecturer'=>$lecturer->first_name.' '.$lecturer->last_name]);
             return redirect()->action('Lecturer@index');
-
         }
         else{
             return redirect()->back()->withErrors(['fail'=>'Email/Password incorrect'])->withInput(['email'=>$request->input('email')]);
@@ -381,8 +382,28 @@ class Lecturer extends Controller
     }
     function logout(Request $request){
         $request->session()->forget('lecturer_logged_in');
+        // $this->goPrev();
         return redirect()->action('Lecturer@login');
 
+    }
+     function goPrev(){
+
+         if(session('lecturer_link')){
+            $mypath= session('lecturer_link');
+            $loginPath = url('/lecturer/login');
+            $previous= url()->previous();
+            if($previous==$loginPath){
+                session(['lecturer_link'=>$mypath]);
+            }
+            else{
+                session(['lecturer_link'=>$previous]);
+            }
+
+
+        }
+        else{
+            session(['lecturer_link'=>url()->previous()]);
+        }
     }
 
     function viewResult(Request $request){

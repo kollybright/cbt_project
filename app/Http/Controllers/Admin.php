@@ -44,6 +44,8 @@ class Admin extends Controller
         $username= $request->input('username');
         $password= sha1($request->input('password'));
         $user= \App\Admin::where(['username'=>$username,'password'=>$password])->get()->count();
+        $path = session('link')? redirect(session('link')):redirect()->action('Admin@index');
+
 
         if($user==1){
 
@@ -57,9 +59,30 @@ class Admin extends Controller
     }
     function logout(Request $request){
         $request->session()->forget('admin_logged_in');
+        // $this->goPrev();
         return redirect('/admin/login');
 
     }
+     function goPrev(){
+
+         if(session('admin_link')){
+            $mypath= session('admin_link');
+            $loginPath = url('/admin/login');
+            $previous= url()->previous();
+            if($previous==$loginPath){
+                session(['admin_link'=>$mypath]);
+            }
+            else{
+                session(['admin_link'=>$previous]);
+            }
+
+
+        }
+        else{
+            session(['link'=>url()->previous()]);
+        }
+    }
+
      function  addLecturer(Request $request)
      {
          $lecturer = new Lecturer();

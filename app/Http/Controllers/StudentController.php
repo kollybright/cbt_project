@@ -13,8 +13,9 @@ use Illuminate\Support\Facades\App;
 
 class StudentController extends Controller
 {
-    function __construct(){
-
+    function __construct()
+    {
+       
     }
 //--------------------------------view-------------------------------
     function index(){
@@ -131,6 +132,7 @@ class StudentController extends Controller
         $username= $request->input('matric_no');
         $password= sha1($request->input('password'));
         $user= \App\Student::where(['matric_no'=>$username,'password'=>$password])->get()->count();
+        $path = session('link')? redirect(session('link')):redirect()->action('StudentController@index');
 
         if($user==1){
             $id = \App\Student::where('matric_no',$username)->first()->id;
@@ -184,6 +186,7 @@ class StudentController extends Controller
         $this->validate($request,[
             'courses'=>'required'
         ]);
+
         if ($reg->destroy($courses)){
             return back()->with("success","Successfully dropped");
         }
@@ -208,11 +211,29 @@ class StudentController extends Controller
 
     function logout(Request $request){
         $request->session()->forget(['student_logged_in','take_exam']);
+        // $this->goPrev();
         return redirect('student/login');
 
     }
+    function goPrev(){
+
+         if(session('student_link')){
+            $mypath= session('student_link');
+            $loginPath = url('/student/login');
+            $previous= url()->previous();
+            if($previous==$loginPath){
+                session(['student_link'=>$mypath]);
+            }
+            else{
+                session(['student_link'=>$previous]);
+            }
 
 
+        }
+        else{
+            session(['student_link'=>url()->previous()]);
+        }
+    }
 
 
 

@@ -133,8 +133,10 @@
     <script src="{{URL::asset('assets/vendor/datatables/jquery.dataTables.js')}}"></script>
     <script src="{{URL::asset('assets/vendor/datatables/dataTables.bootstrap4.js')}}"></script>
 
-    @include('lecturer.lecturerJs')
-
+    {{--@include('lecturer.lecturerJs')--}}
+   <script>
+       $('table').dataTable();
+   </script>
 
 </div>
 </body>

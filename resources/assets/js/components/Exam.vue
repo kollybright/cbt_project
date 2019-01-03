@@ -1,6 +1,6 @@
 <template>
  <div v-if="showQuestions">
-  <p class="text-danger float-right big-text bg-light" id="demo"></p>
+  <p class="text-danger float-right big-text" id="demo"></p>
   <div class="form-group text-center">
    <label for="no">Go to question</label>
    <input  id="no" type="number" min="1" v-bind:max="testQuestions.length"  v-bind:value="current_question_no+1" class="form-control-sm"  @keyup="goTo(),visible()" @change="goTo(),visible()">
@@ -13,26 +13,26 @@
 
      <li class="mb-1">
       <label>A. <input type="radio" v-bind:name="testQuestion.id" value="a"
-                    @click="studentResponse(testQuestion.id,'a')"
-                    @change= "studentResponse(testQuestion.id,'a')"> {{testQuestion.a}}</label>
+                       @click="studentResponse(testQuestion.id,'a')"
+                       @change= "studentResponse(testQuestion.id,'a')"> {{testQuestion.a}}</label>
      </li>
 
      <li class="mb-1">
       <label>B. <input type="radio" v-bind:name="testQuestion.id"  value="b"
-                    @click="studentResponse(testQuestion.id,'b')"
-                    @change= "studentResponse(testQuestion.id,'b')"> {{testQuestion.b}}</label>
+                       @click="studentResponse(testQuestion.id,'b')"
+                       @change= "studentResponse(testQuestion.id,'b')"> {{testQuestion.b}}</label>
      </li>
 
      <li class="mb-1">
       <label>C. <input type="radio" v-bind:name= "testQuestion.id" value="c"
-                    @click="studentResponse(testQuestion.id,'c')"
-                    @change= "studentResponse(testQuestion.id,'c')"> {{testQuestion.c}}</label>
+                       @click="studentResponse(testQuestion.id,'c')"
+                       @change= "studentResponse(testQuestion.id,'c')"> {{testQuestion.c}}</label>
      </li>
 
      <li class="mb-1">
       <label>D. <input type="radio" v-bind:name="testQuestion.id" value="d"
-                    @click="studentResponse(testQuestion.id,'d')"
-                    @change= "studentResponse(testQuestion.id,'d')" > {{testQuestion.d}} </label>
+                       @click="studentResponse(testQuestion.id,'d')"
+                       @change= "studentResponse(testQuestion.id,'d')" > {{testQuestion.d}} </label>
      </li>
 
     </ul>
@@ -48,12 +48,11 @@
    <p class="text-center"><button id="submit" class="btn btn-sm btn-danger" @click="submitTest()">Submit <i class="fa fa-lock"></i></button></p>
 
   </div>
+ </div>
 
- </div>
- <div v-else id="countdown" class="text-lg-center text-danger">
-  <br>
-  <span id="ajax-response"></span>
- </div>
+  <div v-else id="countdown" class="text-lg-center text-danger"></div>
+
+
 
 
 </template>
@@ -74,7 +73,6 @@
             this.test_id= this.id;
 
 
-
         },
         data() {
             return{
@@ -87,29 +85,36 @@
                 startTime:'',
                 endTime : '',
                 showQuestions:false,
+                takingTest:false
 
 
             }
         },
 
         created(){
-            // this.warning();
+
             setInterval(this.showQuestion,1000);
             this.countdown(new Date(this.start_time).getTime());
             this.timer(new Date(this.end_time).getTime());
+            window.addEventListener("beforeunload",this.warning);
+
+
 
         },
         methods:{
+           warning: function(e){
+                   let message = "if you refresh or leave this page, your response (data) will be lost while your time still counts down";
+                   (e || window.event).returnValue = message;
+                   return message;
 
+               },
             showQuestion: function(){
                 let now = new Date().getTime();
                 let start=new Date (this.startTime).getTime();
                 let end= new Date(this.endTime).getTime();
 
-
                 if( now >= start && now <= end ){
                     this.showQuestions= true;
-
                 }
                 else{
                     this.showQuestions= false;
@@ -119,25 +124,8 @@
 
             },
 
-            fetchQuestion: function(id){
 
-                fetch('api/question/'+id)
-                    .then(res => res.json())
-            .then(res => {
-                    this.testQuestions = res;
-            })
-            .catch(err => console.log(err));
-            },
 
-            warning: function(){
-
-                window.addEventListener("beforeunload",function (e){
-                    let message = "if you refresh or leave this page, your response (data) will be lost while your time still counts down";
-                    (e || window.event).returnValue = message;
-                    return message;
-
-                });
-            },
             visible: function () {
                 let prev_seen = this.prev_seen;
                 let next_seen = this.next_seen;
@@ -211,20 +199,19 @@
                 let responses= this.mapToJson(this.studentResponses);
                 let token = window.Laravel.csrfToken;
                 let total= this.testQuestions.length;
-
+                let _this= this;
 
                 $.ajax({
                     type: 'POST',
                     url: '/test/submit',
                     data : { _token:token, responses:responses,test_id:test_id, total:total},
-                    beforeSend: function(){
-                        $('#ajax-response').html('Submitting response....')
-                    },
-                    complete: function(){
-                        $('#ajax-response').html('Your response have been submitted')
-                    },
+                    // complete: function(){
+                    //     $('#ajax-response').html('Your response have been submitted')
+                    // },
                     success:function(){
-                        // alert(JSON.stringify(result));
+                        window.removeEventListener("beforeunload",_this.warning);
+                        _this.takingTest=false;
+                        $('#submitted').click();
                         window.location= "http://localhost:8000/student/logout";
                     }
 
@@ -235,6 +222,7 @@
             },
             studentResponse: function (id,option){
                 this.studentResponses.set(id,option);
+                this.takingTest = true;
                 //console.log(this.strMapToObj(this.studentResponses));
                 // console.log(this.studentResponses);
 
@@ -296,8 +284,6 @@
 
             },
             countdown: function (time) {
-                var c= this.testQuestions;
-
                 // Set the date we're counting down to
                 //var countDownDate
 
@@ -320,7 +306,7 @@
 
 
 
-                        $('#countdown').html('Countdown to test' + "<br>" + days + 'd: ' + hours + 'h: ' + minutes + 'm: ' + seconds + 's');
+                    $('#countdown').html('Countdown to test' + "<br>"+ "<i class='fa fa-hourglass-half'></i> " + days + 'd: ' + hours + 'h: ' + minutes + 'm: ' + seconds + 's');
 
                     // If the count down is finished, write some text
                     if (distance <= 0) {
@@ -343,6 +329,7 @@
                 let countDownDate = new Date(endTime).getTime();
 
                 // Update the count down every 1 second
+                let _this =  this;
                 let x = setInterval(function() {
 
 
@@ -361,19 +348,20 @@
                     // Display the result in the element with id="demo"
 
 
-                   $('#demo').html("<i class='fa fa-clock-o'></i> " +hours + "h " + minutes + "m " + seconds + "s ");
+                    $('#demo').html("<i class='fa fa-hourglass-half'></i> " +hours + "h " + minutes + "m " + seconds + "s ");
 
 
                     // If the count down is finished, write some text
-                    if (distance <= 0) {
+                    if (distance <= 0 ) {
                         clearInterval(x);
-                        localStorage.setItem('sendResponse','true')
                         $('#countdown').html('Expired, the test has been taken already.');
-                       // $('#demo').html('EXPIRED');
-
-
-
+                        if( _this.takingTest===true){
+                            _this.submit();
+                        }
+                        // $('#demo').html('EXPIRED');
                     }
+
+
 
                 }, 1000);
 

@@ -5,7 +5,7 @@
             {{--{{sha1('kolawole1')}}--}}
 
             <div class="form-group-lg col-sm-12">
-                <label for="go_to_course"><b class="text-primary font-weight-bold ">Go to Course</b></label>
+                <label for="go_to_course"><b class="text-info font-weight-bold ">Go to Course</b></label>
                 <select id="go_to_course" class=" go_to_course form-control-lg col-sm-12">
                     @if(count($courses)==0)
                         <option>No available course, add new course
@@ -21,7 +21,7 @@
             <br>
             <br>
             <div class="card">
-                <div class="card-header text-center text-info"><h5>Attached Courses</h5></div>
+                <div class="card-header text-center text-info"><h5>Managing Courses</h5></div>
                 <div class="card-body">
                     <table  id="courses" class="table table-responsive-sm table-hover">
                         <thead>

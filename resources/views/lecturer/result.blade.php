@@ -15,33 +15,42 @@
                         @endforeach
                 </select>
             </div>
+
             <div id="view_result_status" class="text-danger text-center font-weight-bold"></div>
+            <div class="card" id="result_card">
+                <div class="card-header">
+                    <div id="print_download"><button class="btn btn-sm btn-outline-secondary"><i class="fa fa-download"></i></button>
+                    <button id="print" class="btn btn-sm btn-outline-info float-right" onclick="print()"><i class="fa fa-print"></i></button>
+                    </div>
 
+                </div>
+                <div class="card-body">
+                    <table id="view_result_table" class="table table-responsive-sm table-striped">
+                        <thead>
+                        <tr>
+                            <th>Reg no</th>
+                            <th>Surname</th>
+                            <th>First Name</th>
+                            <th>Score</th>
+                            <th>Total</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>Reg no</th>
+                            <th>Surname</th>
+                            <th>First Name</th>
+                            <th>Score</th>
+                            <th>Total</th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
 
-            <table id="view_result_table" class="table table-responsive-sm table-striped">
-                <thead>
-                <tr>
-                    <th>Reg no</th>
-                    <th>Surname</th>
-                    <th>First Name</th>
-                    <th>Score</th>
-                    <th>Total</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-                <tfoot>
-                <tr>
-                    <th>Reg no</th>
-                    <th>Surname</th>
-                    <th>First Name</th>
-                    <th>Score</th>
-                    <th>Total</th>
-                </tr>
-                </tfoot>
-            </table>
         </div>
     </div>
 

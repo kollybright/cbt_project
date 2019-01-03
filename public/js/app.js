@@ -47406,7 +47406,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -47433,19 +47432,25 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             test_id: '',
             startTime: '',
             endTime: '',
-            showQuestions: false
+            showQuestions: false,
+            takingTest: false
 
         };
     },
     created: function created() {
-        // this.warning();
+
         setInterval(this.showQuestion, 1000);
         this.countdown(new Date(this.start_time).getTime());
         this.timer(new Date(this.end_time).getTime());
+        window.addEventListener("beforeunload", this.warning);
     },
 
     methods: {
-
+        warning: function warning(e) {
+            var message = "if you refresh or leave this page, your response (data) will be lost while your time still counts down";
+            (e || window.event).returnValue = message;
+            return message;
+        },
         showQuestion: function showQuestion() {
             var now = new Date().getTime();
             var start = new Date(this.startTime).getTime();
@@ -47458,26 +47463,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             }
         },
 
-        fetchQuestion: function fetchQuestion(id) {
-            var _this = this;
-
-            fetch('api/question/' + id).then(function (res) {
-                return res.json();
-            }).then(function (res) {
-                _this.testQuestions = res;
-            }).catch(function (err) {
-                return console.log(err);
-            });
-        },
-
-        warning: function warning() {
-
-            window.addEventListener("beforeunload", function (e) {
-                var message = "if you refresh or leave this page, your response (data) will be lost while your time still counts down";
-                (e || window.event).returnValue = message;
-                return message;
-            });
-        },
         visible: function visible() {
             var prev_seen = this.prev_seen;
             var next_seen = this.next_seen;
@@ -47538,19 +47523,19 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             var responses = this.mapToJson(this.studentResponses);
             var token = window.Laravel.csrfToken;
             var total = this.testQuestions.length;
+            var _this = this;
 
             $.ajax({
                 type: 'POST',
                 url: '/test/submit',
                 data: { _token: token, responses: responses, test_id: test_id, total: total },
-                beforeSend: function beforeSend() {
-                    $('#ajax-response').html('Submitting response....');
-                },
-                complete: function complete() {
-                    $('#ajax-response').html('Your response have been submitted');
-                },
+                // complete: function(){
+                //     $('#ajax-response').html('Your response have been submitted')
+                // },
                 success: function success() {
-                    // alert(JSON.stringify(result));
+                    window.removeEventListener("beforeunload", _this.warning);
+                    _this.takingTest = false;
+                    $('#submitted').click();
                     window.location = "http://localhost:8000/student/logout";
                 }
 
@@ -47558,6 +47543,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         },
         studentResponse: function studentResponse(id, option) {
             this.studentResponses.set(id, option);
+            this.takingTest = true;
             //console.log(this.strMapToObj(this.studentResponses));
             // console.log(this.studentResponses);
 
@@ -47631,8 +47617,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             return JSON.stringify(this.strMapToObj(strMap));
         },
         countdown: function countdown(time) {
-            var c = this.testQuestions;
-
             // Set the date we're counting down to
             //var countDownDate
 
@@ -47653,7 +47637,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                 // Display the result in the element with id="demo"
 
 
-                $('#countdown').html('Countdown to test' + "<br>" + days + 'd: ' + hours + 'h: ' + minutes + 'm: ' + seconds + 's');
+                $('#countdown').html('Countdown to test' + "<br>" + "<i class='fa fa-hourglass-half'></i> " + days + 'd: ' + hours + 'h: ' + minutes + 'm: ' + seconds + 's');
 
                 // If the count down is finished, write some text
                 if (distance <= 0) {
@@ -47666,10 +47650,12 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         },
         timer: function timer(endTime) {
             // Set the date we're counting down to
-            var c = this.showQuestions;
+
+
             var countDownDate = new Date(endTime).getTime();
 
             // Update the count down every 1 second
+            var _this = this;
             var x = setInterval(function () {
 
                 // Get todays date and time
@@ -47687,14 +47673,16 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                 // Display the result in the element with id="demo"
 
 
-                $('#demo').html("<i class='fa fa-clock-o'></i> " + hours + "h " + minutes + "m " + seconds + "s ");
+                $('#demo').html("<i class='fa fa-hourglass-half'></i> " + hours + "h " + minutes + "m " + seconds + "s ");
 
                 // If the count down is finished, write some text
                 if (distance <= 0) {
                     clearInterval(x);
                     $('#countdown').html('Expired, the test has been taken already.');
+                    if (_this.takingTest === true) {
+                        _this.submit();
+                    }
                     // $('#demo').html('EXPIRED');
-
                 }
             }, 1000);
         }
@@ -47718,7 +47706,7 @@ var render = function() {
         "div",
         [
           _c("p", {
-            staticClass: "text-danger float-right big-text bg-light",
+            staticClass: "text-danger float-right big-text",
             attrs: { id: "demo" }
           }),
           _vm._v(" "),
@@ -47926,14 +47914,10 @@ var render = function() {
         ],
         2
       )
-    : _c(
-        "div",
-        {
-          staticClass: "text-lg-center text-danger",
-          attrs: { id: "countdown" }
-        },
-        [_c("br"), _vm._v(" "), _c("span", { attrs: { id: "ajax-response" } })]
-      )
+    : _c("div", {
+        staticClass: "text-lg-center text-danger",
+        attrs: { id: "countdown" }
+      })
 }
 var staticRenderFns = []
 render._withStripped = true

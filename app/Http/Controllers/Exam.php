@@ -29,7 +29,11 @@ class Exam extends Controller
         $i= strtotime($start_time);
         $to_start = date('M d, Y H:i:s',$i);
         $to_end = date('M d, Y H:i:s', strtotime('+ '.$duration.' minutes',$i));
-        $exam = $question->select('id','question','a','b','c','d','course_id')->where(['course_id'=>$course_id])->get()->toJson();
+        $exam = $question->select('id','question','a','b','c','d','course_id')
+        ->where(['course_id'=>$course_id])
+        ->inRandomOrder()
+        ->get()
+        ->toJson();
         return view('exam.exam',['exam'=>$exam,'id'=>$id,'start_time'=>$to_start,'end_time'=>$to_end]);
     }
 

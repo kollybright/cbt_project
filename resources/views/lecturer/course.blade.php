@@ -12,7 +12,7 @@
               @else
                   <div class="text-center">
                       <label for="trash" class="text-danger">Recyle questions</label>
-                      <button name="trash" id="trash" value="{{$course->id}}" class="btn btn-white"><i class="fa fa-trash text-danger"></i></button>
+                      <button name="trash" id="trash" value="{{$course->id}}" class="btn btn-white"><i class="fa fa-recycle text-danger"></i></button>
                   </div>
               @endif
 

@@ -19,7 +19,8 @@
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="#">CBT</a>
+    <a class="navbar-brand" href="#">CBT
+    </a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -36,13 +37,13 @@
 
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add Test">
                     <a class="nav-link" href="{{url('lecturer')}}/{{$display}}/add_test">
-                        <i class="fa fa-fw fa-plus-square"></i>
+                        <i class="fa fa-fw fa-plus-circle"></i>
                         <span class="nav-link-text"> Create Test</span>
                     </a>
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Scheduled Tests">
                     <a class="nav-link" href="{{url('lecturer')}}/{{$display}}/scheduled_test">
-                        <i class="fa fa-fw fa-book"></i>
+                        <i class="fa fa-fw fa-calendar-check-o"></i>
                         <span class="nav-link-text">Scheduled Tests</span>
                     </a>
                 </li>
@@ -54,7 +55,7 @@
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Upload question batch">
                     <a class="nav-link" href="{{url('lecturer')}}/{{$display}}/question_upload ">
-                        <i class="fa fa-fw fa-file"></i>
+                        <i class="fa fa-upload"></i>
                         <span class="nav-link-text">Upload Question Batch</span>
                     </a>
                 </li>
