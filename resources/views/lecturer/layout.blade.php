@@ -9,7 +9,7 @@
     {{--<meta name="csrf-token" content="{{csrf_token()}}">--}}
     <title>Lecturer Dashboard</title>
     <link href="{{URL::asset('assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
-    <!-- Custom fonts for this template-->
+    <!-- login fonts for this template-->
     <link href="{{URL::asset('assets/vendor/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template-->
     <link href="{{URL::asset('assets/css/sb-admin.css')}}" rel="stylesheet">
@@ -130,6 +130,11 @@
             </div>
         </div>
     </footer>
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fa fa-angle-up"></i>
+    </a>
     {{--Loadind--}}
     <div class="modal fade" id="loading" tabindex="-1" role="dialog" aria-labelledby="Request processing" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -182,10 +187,7 @@
     </div>
 
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fa fa-angle-up"></i>
-    </a>
+
 
     <script src="{{URL::asset('assets/vendor/jquery/jquery.min.js')}}"></script>
     <script src="{{URL::asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
@@ -195,7 +197,11 @@
     <script src="{{URL::asset('assets/vendor/chart.js/Chart.min.js')}}"></script>
     <script src="{{URL::asset('assets/vendor/datatables/jquery.dataTables.js')}}"></script>
     <script src="{{URL::asset('assets/vendor/datatables/dataTables.bootstrap4.js')}}"></script>
-
+    <!-- Custom scripts for all pages-->
+    <script src="{{URL::asset('assets/js/sb-admin.min.js')}}"></script>
+    <!-- Custom scripts for this page-->
+    <script src="{{URL::asset('assets/js/sb-admin-datatables.min.js')}}"></script>
+    <script src="{{URL::asset('assets/js/sb-admin-charts.min.js')}}"></script>
 
    @include('lecturer.lecturerJs')
 

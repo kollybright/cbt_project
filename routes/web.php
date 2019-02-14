@@ -14,7 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::view('about','about');
+Route::view('contact','contact');
 //------------------      Admin -------------------------
 Route::get('admin/login','Admin@login');
 
@@ -74,6 +75,7 @@ Route::middleware(['student'])->group(function() {
     Route::get('student', 'StudentController@index');
     Route::get('student/course_reg', 'StudentController@CourseReg');
     Route::get('student/select_test','StudentController@selectTest');
+    Route::get('student/result','StudentController@result');
 //    Route::get('student/s','StudentController@testIds');
 
 });

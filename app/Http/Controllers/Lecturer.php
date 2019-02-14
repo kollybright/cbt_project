@@ -226,7 +226,7 @@ class Lecturer extends Controller
         if(($handle=fopen(public_path().'/'.$destinationPath.'/'.$filename,'r'))!==FALSE){
             while(($data= fgetcsv($handle,1000,','))!=FALSE){
                if(!isset($data[0],$data[1],$data[2],$data[3],$data[4],$data[5])){
-                   return back()->with('error','Error: ensure that csv  format is consistence');
+                   return back()->with('error','Error: ensure that csv/txt  format is consistent');
                }
                 $question = new Question();
                 $question->question = $data[0];

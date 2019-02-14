@@ -266,8 +266,7 @@
                     type:'POST',
                     url:"{{url('lecturer/test_delete')}}",
                     data:{'id':id,'_token':token},
-                    beforeSend: function() {
-                        $('#loading').modal();
+                    beforeSend: function() {/                        $('#loading').modal();
                     },
                     complete: function() {
                         $('#loading').modal('hide');

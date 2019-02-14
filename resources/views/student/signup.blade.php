@@ -1,7 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
+@extends('layout')
+@section('header')
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -14,14 +12,14 @@
     <!-- Custom fonts for this template-->
     <link href="{{URL::asset('assets/vendor/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template-->
-    <link href="{{URL::asset('assets/css/sb-admin.css')}}" rel="stylesheet">
+    {{--<link href="{{URL::asset('assets/css/sb-admin.css')}}" rel="stylesheet">--}}
     <!-- Page level plugin CSS-->
     <link href="{{URL::asset('assets/vendor/datatables/dataTables.bootstrap4.css')}}" rel="stylesheet">
-</head>
+@endsection
 
-<body class="bg-secondary">
-<div class="container">
-    <div class="card card-register bg-dark text-white mx-auto mt-5">
+@section('content')
+<div class="container" >
+    <div class="card card-register bg-dark text-white mx-auto mt-5 mb-5">
         <div class="card-header text-center font-weight-bold">Student Registration Form<br>
             @if(session('success'))
                 <br><div class="alert alert-success">
@@ -88,11 +86,4 @@
 
     </div>
 </div>
-<!-- Bootstrap core JavaScript-->
-<script src="{{URL::asset('assets/vendor/jquery/jquery.min.js')}}"></script>
-<script src="{{URL::asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-<!-- Core plugin JavaScript-->
-<script src="{{URl::asset('assets/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
-</body>
-
-</html>
+@endsection

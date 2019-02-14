@@ -1,70 +1,22 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
+@extends('layout')
+@section('header')
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
     <title>CBT</title>
-
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-</head>
-<body>
-<div id="app">
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-laravel bg-dark">
-        <div class="container">
-            <a class="navbar-brand"  href="{{ url('/') }}">
-                <img class="img-responsive img-round" src="{{asset('OAU_logo.jpg')}}"  height="90" alt="OAU_LOGO">
-                <span class="">CBT System</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-            <ul class="navbar-nav ml-auto">
-
-                <li class="nav-item ">
-                    <a class="nav-link text-white" href="{{url('lecturer')}}">
-                        Examiner</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{{url('admin')}}">Admin</a>
-                </li>
-                <li class="nav-item">
-                <div class="dropdown">
-                    <button class="btn btn-outline-secondary dropdown-toggle text-white" type="button" id="menu1" data-toggle="dropdown">Student</button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <div class="dropdown-header">Student Pages</div>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item text-info" href="{{url('student/register')}}">Registeration Page</a>
-                        <a class="dropdown-item text-info" href="{{url('student')}}">Homepage</a>
-                    </div>
-                </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">Contact Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">About Us</a>
-                </li>
-            </ul>
-                </div>
-
-        </div>
-
-    </nav>
-
+    <!-- Bootstrap core CSS-->
+    <!-- Bootstrap core CSS-->
+    <link href="{{URL::asset('assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+    <!-- Custom fonts for this template-->
+    <link href="{{URL::asset('assets/vendor/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template-->
+    {{--<link href="{{URL::asset('assets/css/sb-admin.css')}}" rel="stylesheet">--}}
+    <!-- Page level plugin CSS-->
+    <link href="{{URL::asset('assets/vendor/datatables/dataTables.bootstrap4.css')}}" rel="stylesheet">
+@endsection
+@section('content')
     <main class="py-4">
         <div id="demo" class="carousel slide" data-ride="carousel">
 
@@ -101,10 +53,6 @@
         </div>
 
     </main>
-</div>
-<footer class="sticky-footer fixed-bottom btn-dark text-center" style="height:3em;">
-    Copyright © OAU Computer Science & Engineering CBT System 2018
-</footer>
+    @endsection
 
-</body>
-</html>
+

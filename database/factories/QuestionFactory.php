@@ -10,6 +10,6 @@ $factory->define(App\Question::class, function (Faker $faker) {
         'c'=>$faker->sentence(5),
         'd'=>$faker->sentence(5),
         'correct_option'=>$faker->randomElement(['a','b','c','d']),
-        'course_id'=>1,
+        'course_id'=>2,
     ];
 });

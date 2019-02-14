@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Registration;
+use App\Result;
 use App\Student;
 use App\TakenTest;
 use App\Test;
@@ -207,6 +208,15 @@ class StudentController extends Controller
             session()->put('take_exam',true);
             return redirect("test/".$request->input('test_id'));
         }
+    }
+    function result(){
+        $result = new Result();
+        $stud_res= $result->join('test','result.test_id','=','test.id')
+            ->join('course','test.id','=','course.id')
+            ->where('student_id',session('student_id'))
+            ->getQuery()
+            ->get();
+        return view('student.result',['result'=>$stud_res]);
     }
 
     function logout(Request $request){

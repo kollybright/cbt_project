@@ -59,6 +59,13 @@
                     <span class="nav-link-text"> Take Test</span>
                 </a>
             </li>
+
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Result">
+                <a class="nav-link" href="{{url('student/result')}}">
+                    <i class="fa fa-fw fa-book fa fa-fw fa-eye-slash"></i>
+                    <span class="nav-link-text">Result</span>
+                </a>
+            </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Logout">
                 <a class="nav-link" data-toggle="modal" data-target="#LogoutModal">
                     <i class="fa fa-fw fa-sign-out"></i>
@@ -132,6 +139,11 @@
     <script src="{{URL::asset('assets/vendor/chart.js/Chart.min.js')}}"></script>
     <script src="{{URL::asset('assets/vendor/datatables/jquery.dataTables.js')}}"></script>
     <script src="{{URL::asset('assets/vendor/datatables/dataTables.bootstrap4.js')}}"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="{{URL::asset('assets/js/sb-admin.min.js')}}"></script>
+    <!-- Custom scripts for this page-->
+    <script src="{{URL::asset('assets/js/sb-admin-datatables.min.js')}}"></script>
+    <script src="{{URL::asset('assets/js/sb-admin-charts.min.js')}}"></script>
 
     {{--@include('lecturer.lecturerJs')--}}
    <script>
